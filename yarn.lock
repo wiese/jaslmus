@@ -5470,9 +5470,9 @@ micromatch@^3.1.10, micromatch@^3.1.4:
     snapdragon "^0.8.1"
     to-regex "^3.0.2"
 
-"midi@git+https://github.com/paulrosen/MIDI.js.git#abcjs":
+"midi@https://github.com/paulrosen/MIDI.js.git#abcjs":
   version "0.4.2"
-  resolved "git+https://github.com/paulrosen/MIDI.js.git#e593ffef81a0350f99448e3ab8111957145ff6b2"
+  resolved "https://github.com/paulrosen/MIDI.js.git#e593ffef81a0350f99448e3ab8111957145ff6b2"
 
 miller-rabin@^4.0.0:
   version "4.0.1"
@@ -8362,6 +8362,11 @@ wcwidth@^1.0.1:
   integrity sha1-8LDc+RW8X/FSivrbLA4XtTLaL+g=
   dependencies:
     defaults "^1.0.3"
+
+webmidi@^2.5.1:
+  version "2.5.1"
+  resolved "https://registry.npmjs.org/webmidi/-/webmidi-2.5.1.tgz#e98b0bb5356afb5112aaff7eaac23606cf0b71d0"
+  integrity sha512-rX9/vBBSnSZR04ZZcLWCe/ujOizH9f/Q9HX11+Zw+HHwOy7edUTbbC3Axc2RjoiDQ2W7RkK1tY4yv0nYSfUcJg==
 
 webpack-bundle-analyzer@^3.8.0:
   version "3.9.0"

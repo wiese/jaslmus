@@ -46,12 +46,12 @@ export default {
       }
     },
     subscribe(device) {
-      device.onmidimessage = this.midiSubscription;
+      device.addListener("noteon", "all", this.midiSubscription);
       this.device = device;
     },
     unsubscribe() {
-      if (this.device.onmidimessage) {
-        this.device.onmidimessage = null;
+      if (this.device.removeListener) {
+        this.device.removeListener();
       }
     }
   }

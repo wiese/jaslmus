@@ -18,6 +18,8 @@
 </template>
 
 <script>
+import WebMidi from "webmidi";
+
 export default {
   name: "MidiDeviceSelector",
   computed: {
@@ -39,16 +41,16 @@ export default {
   },
   methods: {
     loadMidiDevices() {
-      this.hasProblem = typeof window.navigator.requestMIDIAccess !== "function";
-      if (this.hasProblem) {
-        return;
-      }
-      window.navigator.requestMIDIAccess().then(midi => {
-        this.inputs = midi.inputs;
+      WebMidi.enable(err => {
+        if (err) {
+          this.hasProblem = true;
+          return;
+        }
+        this.inputs = WebMidi.inputs;
       });
     },
     onChange(event) {
-      this.$emit("deviceChanged", this.inputs.get(event.target.value));
+      this.$emit("deviceChanged", WebMidi.getInputById(event.target.value));
     }
   }
 };
