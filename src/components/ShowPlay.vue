@@ -42,7 +42,6 @@ export default {
     },
     subscribe(keyboard) {
       keyboard.addListener("noteon", "all", this.midiSubscription);
-      this.device = keyboard;
     },
     unsubscribe() {
       if (this.keyboard.removeListener) {
