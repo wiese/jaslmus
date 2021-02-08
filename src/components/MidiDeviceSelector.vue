@@ -4,7 +4,11 @@
   </div>
   <div v-else>
     <label for="jaslmus-settings-midi-device">Select Device:</label>
-    <select id="jaslmus-settings-midi-device" v-model="selected" @change="onChange($event)">
+    <select
+      id="jaslmus-settings-midi-device"
+      v-model="selected"
+      @change="onChange($event)"
+    >
       <option disabled value="">Please select one</option>
       <option
         v-for="option in options"

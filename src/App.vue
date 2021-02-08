@@ -2,13 +2,13 @@
   <h1>Jaslmus</h1>
   <p>Learn to play the piano, all right.</p>
   <hr />
-  <MidiDeviceSelector @deviceChanged="deviceChanged" />
+  <SubscriptionHandlingDeviceSelector @deviceChanged="device = $event" />
   <hr />
   <ShowPlay :keyboard="device" />
 </template>
 
 <script>
-import MidiDeviceSelector from "./components/MidiDeviceSelector.vue";
+import SubscriptionHandlingDeviceSelector from "./components/SubscriptionHandlingDeviceSelector";
 import ShowPlay from "./components/ShowPlay";
 
 export default {
@@ -17,25 +17,8 @@ export default {
     device: {}
   }),
   components: {
-    MidiDeviceSelector,
+    SubscriptionHandlingDeviceSelector,
     ShowPlay
-  },
-  unmounted() {
-    this.unsubscribe();
-  },
-  methods: {
-    deviceChanged(device) {
-      this.unsubscribe(); // remove previous subscription
-      this.subscribe(device);
-    },
-    subscribe(device) {
-      this.device = device;
-    },
-    unsubscribe() {
-      if (this.device.removeListener) {
-        this.device.removeListener();
-      }
-    }
   }
 };
 </script>
