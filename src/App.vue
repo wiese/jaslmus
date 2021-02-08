@@ -5,11 +5,19 @@
   <SubscriptionHandlingDeviceSelector @deviceChanged="device = $event" />
   <hr />
   <ShowPlay :keyboard="device" />
+  <hr />
+  <Challenge
+    v-if="hasKeyboard"
+    :keyboard="device"
+    :base-note="60"
+    :note-limit="3"
+  />
 </template>
 
 <script>
 import SubscriptionHandlingDeviceSelector from "./components/SubscriptionHandlingDeviceSelector";
 import ShowPlay from "./components/ShowPlay";
+import Challenge from "./components/Challenge";
 
 export default {
   name: "App",
@@ -17,8 +25,14 @@ export default {
     device: {}
   }),
   components: {
+    Challenge,
     SubscriptionHandlingDeviceSelector,
     ShowPlay
+  },
+  computed: {
+    hasKeyboard() {
+      return this.device.id !== undefined;
+    }
   }
 };
 </script>
