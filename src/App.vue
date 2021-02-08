@@ -4,13 +4,15 @@
   <hr />
   <MidiDeviceSelector @deviceChanged="deviceChanged" />
   <hr />
+  <AbcNotation :abc="abc" />
   <p ref="notes"></p>
 </template>
 
 <script>
+import AbcNotation from "./components/AbcNotation.vue";
 import MidiDeviceSelector from "./components/MidiDeviceSelector.vue";
-import AbcNotation from "@tonaljs/abc-notation";
 import Midi from "@tonaljs/midi";
+import TonalAbcNotation from "@tonaljs/abc-notation";
 
 // see http://www.computermusicresource.com/MIDI.Commands.html
 const MIDI_COMMAND_ON = 144;
@@ -18,10 +20,12 @@ const MIDI_COMMAND_ON = 144;
 export default {
   name: "App",
   data: () => ({
-    device: {}
+    device: {},
+    abc: ""
   }),
   components: {
-    MidiDeviceSelector
+    MidiDeviceSelector,
+    AbcNotation
   },
   unmounted() {
     this.unsubscribe();
@@ -34,9 +38,10 @@ export default {
     midiSubscription(midiEvent) {
       if (midiEvent.data[0] === MIDI_COMMAND_ON) {
         const pitch = midiEvent.data[1];
-        const abc = AbcNotation.scientificToAbcNotation(
+        const abc = TonalAbcNotation.scientificToAbcNotation(
           Midi.midiToNoteName(pitch)
         );
+        this.abc = `X:1\nK:C\n${abc}`;
         this.$refs.notes.innerHTML += `${pitch} (${abc})<br />`;
       }
     },
