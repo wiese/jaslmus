@@ -9,6 +9,8 @@
 
 <script>
 import MidiDeviceSelector from "./components/MidiDeviceSelector.vue";
+import AbcNotation from "@tonaljs/abc-notation";
+import Midi from "@tonaljs/midi";
 
 // see http://www.computermusicresource.com/MIDI.Commands.html
 const MIDI_COMMAND_ON = 144;
@@ -31,7 +33,11 @@ export default {
     },
     midiSubscription(midiEvent) {
       if (midiEvent.data[0] === MIDI_COMMAND_ON) {
-        this.$refs.notes.innerHTML += midiEvent.data[1] + "<br />";
+        const pitch = midiEvent.data[1];
+        const abc = AbcNotation.scientificToAbcNotation(
+          Midi.midiToNoteName(pitch)
+        );
+        this.$refs.notes.innerHTML += `${pitch} (${abc})<br />`;
       }
     },
     subscribe(device) {
