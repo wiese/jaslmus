@@ -15,6 +15,17 @@ export default {
   },
   watch: {
     abc() {
+      this.render();
+    }
+  },
+  mounted() {
+    this.render();
+  },
+  methods: {
+    render() {
+      if (this.abc === "") {
+        return;
+      }
       AbcNotation.renderAbc(
         this.$refs.notation,
         this.abc,
