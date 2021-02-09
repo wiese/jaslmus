@@ -46,7 +46,8 @@
         "successes": "Successes:",
         "mistakes": "Mistakes:"
       },
-      "start": "Start"
+      "start": "Start",
+      "startViaKeyHint": "You can also start the game via key {key} on your MIDI device."
     }
   }
 }

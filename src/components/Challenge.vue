@@ -11,7 +11,12 @@
       </span>
     </div>
     <div v-else>
-      <button @click="start()">{{ $i18n.t("game.noteReading.start") }}</button>
+      <button @click="start()" title="">
+        {{ $i18n.t("game.noteReading.start") }}
+      </button>
+      <p>
+        <sub>{{ startViaKeyHint }}</sub>
+      </p>
     </div>
   </div>
 </template>
@@ -20,6 +25,8 @@
 import AbcNotation from "./AbcNotation";
 import Midi from "@tonaljs/midi";
 import TonalAbcNotation from "@tonaljs/abc-notation";
+
+export const START_ON_KEY = 60; // middle C
 
 export default {
   props: {
@@ -54,6 +61,13 @@ export default {
   mounted() {
     this.keyboard.addListener("noteon", "all", this.evaluateInput);
   },
+  computed: {
+    startViaKeyHint() {
+      return this.$i18n.t("game.noteReading.startViaKeyHint", {
+        key: `${START_ON_KEY} (${this.midiToAbc(START_ON_KEY)})`
+      });
+    }
+  },
   methods: {
     createNewChallenge() {
       let upper;
@@ -64,10 +78,7 @@ export default {
       }
 
       this.targetPitch = this.randomIntFromInterval(this.baseNote, upper);
-      const abc = TonalAbcNotation.scientificToAbcNotation(
-        Midi.midiToNoteName(this.targetPitch)
-      );
-      this.abc = `X:1\nK:C\n${abc}`;
+      this.abc = `X:1\nK:C\n${this.midiToAbc(this.targetPitch)}`;
     },
     start() {
       this.gaming = true;
@@ -76,6 +87,8 @@ export default {
     evaluateInput(midiEvent) {
       if (this.gaming) {
         this.evaluateResponse(midiEvent);
+      } else if (midiEvent.data[1] === START_ON_KEY) {
+        this.start();
       }
     },
     evaluateResponse(midiEvent) {
@@ -89,6 +102,11 @@ export default {
     },
     randomIntFromInterval(min, max) {
       return Math.floor(Math.random() * (max - min + 1) + min);
+    },
+    midiToAbc(pitch) {
+      return TonalAbcNotation.scientificToAbcNotation(
+        Midi.midiToNoteName(pitch)
+      );
     }
   }
 };
