@@ -1,8 +1,5 @@
 <template>
-  <div v-if="hasProblem">
-    <p>Problem loading MIDI devices</p>
-  </div>
-  <div v-else>
+  <div>
     <label for="jaslmus-settings-midi-device">Select Device:</label>
     <select
       id="jaslmus-settings-midi-device"
@@ -26,6 +23,12 @@ import WebMidi from "webmidi";
 
 export default {
   name: "MidiDeviceSelector",
+  props: {
+    preferred: {
+      required: false,
+      type: Object
+    }
+  },
   computed: {
     options() {
       const options = [];
@@ -36,27 +39,26 @@ export default {
     }
   },
   data: () => ({
-    hasProblem: false,
     selected: "",
     inputs: []
   }),
   created() {
-    this.loadMidiDevices();
+    if (!WebMidi.enabled) {
+      throw new Error("WebMidi must be enabled for this component to work!");
+    }
+
+    this.inputs = WebMidi.inputs;
+
+    if (this.preferred && WebMidi.getInputById(this.preferred.id)) {
+      this.selected = this.preferred.id;
+    }
   },
   methods: {
-    loadMidiDevices() {
-      WebMidi.enable(err => {
-        if (err) {
-          this.hasProblem = true;
-          return;
-        }
-        this.inputs = WebMidi.inputs;
-      });
-    },
     onChange(event) {
       this.$emit("deviceChanged", WebMidi.getInputById(event.target.value));
     }
-  }
+  },
+  emits: ["deviceChanged"]
 };
 </script>
 

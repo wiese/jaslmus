@@ -19,17 +19,14 @@ export default {
   data: () => ({
     abc: ""
   }),
-  watch: {
-    keyboard() {
-      this.unsubscribe(); // remove previous subscription
-      this.subscribe(this.keyboard);
-    }
-  },
   components: {
     AbcNotation
   },
   unmounted() {
-    this.unsubscribe();
+    this.keyboard.removeListener("noteon", "all", this.midiSubscription);
+  },
+  mounted() {
+    this.keyboard.addListener("noteon", "all", this.midiSubscription);
   },
   methods: {
     midiSubscription(midiEvent) {
@@ -39,14 +36,6 @@ export default {
       );
       this.abc = `X:1\nK:C\n${abc}`;
       this.$refs.notes.innerHTML += `${pitch} (${abc})<br />`;
-    },
-    subscribe(keyboard) {
-      keyboard.addListener("noteon", "all", this.midiSubscription);
-    },
-    unsubscribe() {
-      if (this.keyboard.removeListener) {
-        this.keyboard.removeListener("noteon", "all", this.midiSubscription);
-      }
     }
   }
 };

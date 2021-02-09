@@ -1,31 +1,31 @@
 <template>
-  <MidiDeviceSelector @deviceChanged="deviceChanged" />
+  <MidiDeviceSelector :preferred="device" @deviceChanged="deviceChanged" />
 </template>
 
 <script>
 import MidiDeviceSelector from "./MidiDeviceSelector";
 
 export default {
+  name: "SubscriptionHandlingDeviceSelector",
   components: {
     MidiDeviceSelector
   },
-  data: () => ({
-    device: {}
-  }),
-  unmounted() {
-    this.unsubscribe();
+  props: {
+    device: {
+      required: false,
+      type: Object
+    }
   },
   methods: {
     deviceChanged(device) {
-      this.unsubscribe(); // remove previous subscription
-      this.device = device;
-      this.$emit("deviceChanged", this.device);
-    },
-    unsubscribe() {
-      if (this.device.removeListener) {
+      // remove subscriptions from previous device
+      if (this.device && this.device.removeListener) {
         this.device.removeListener();
       }
+
+      this.$emit("deviceChanged", device);
     }
-  }
+  },
+  emits: ["deviceChanged"]
 };
 </script>
