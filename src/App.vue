@@ -42,6 +42,7 @@ import ShowPlay from "./components/ShowPlay";
 import Challenge from "./components/Challenge";
 import MidiCapability from "./components/MidiCapability";
 import SubscriptionHandlingDeviceSelector from "./components/SubscriptionHandlingDeviceSelector";
+import preferences from "./preferences.json";
 
 export default {
   name: "App",
@@ -50,12 +51,7 @@ export default {
     midiOptions: {
       input: null
     },
-    preferences: {
-      noteReading: {
-        noteLimit: 3,
-        baseNote: 60
-      }
-    }
+    preferences: {}
   }),
   components: {
     SubscriptionHandlingDeviceSelector,
@@ -65,6 +61,7 @@ export default {
   },
   created() {
     this.showMidiOptions = !this.hasKeyboard;
+    this.preferences = preferences;
   },
   computed: {
     hasKeyboard() {
