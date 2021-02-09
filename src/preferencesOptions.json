@@ -1,0 +1,11 @@
+{
+  "noteReading": {
+    "noteLimit": [
+      3,
+      5,
+      9,
+      15,
+      null
+    ]
+  }
+}

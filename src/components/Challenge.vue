@@ -30,9 +30,9 @@ export default {
       validator: Number.isInteger
     },
     noteLimit: {
-      required: true,
-      type: Number,
-      validator: Number.isInteger
+      validator: value => {
+        return value === null || Number.isInteger(value);
+      }
     }
   },
   data: () => ({
@@ -53,10 +53,14 @@ export default {
   },
   methods: {
     createNewChallenge() {
-      this.targetPitch = this.randomIntFromInterval(
-        this.baseNote,
-        this.baseNote + this.noteLimit - 1
-      );
+      let upper;
+      if (this.noteLimit === null) {
+        upper = 127;
+      } else {
+        upper = this.baseNote + this.noteLimit - 1;
+      }
+
+      this.targetPitch = this.randomIntFromInterval(this.baseNote, upper);
       const abc = TonalAbcNotation.scientificToAbcNotation(
         Midi.midiToNoteName(this.targetPitch)
       );

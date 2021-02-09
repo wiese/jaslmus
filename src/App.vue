@@ -19,8 +19,35 @@
         </div>
       </fieldset>
     </div>
+    <div v-else-if="showPreferences">
+      <button @click="showPreferences = false">close</button>
+      <h2>Preferences</h2>
+      <fieldset>
+        <legend>Note reading</legend>
+        <fieldset>
+          <legend>Notes</legend>
+          <label for="jaslmus-preferences-noteReading-noteLimit">
+            Number of Notes:
+          </label>
+          <select
+            id="jaslmus-preferences-noteReading-noteLimit"
+            v-model="preferences.noteReading.noteLimit"
+          >
+            <option disabled value="">Please select one</option>
+            <option
+              v-for="option in preferencesOptions.noteReading.noteLimit"
+              v-bind:value="option"
+              v-bind:key="option"
+            >
+              {{ option }}
+            </option>
+          </select>
+        </fieldset>
+      </fieldset>
+    </div>
     <div v-else>
       <button @click="showMidiOptions = true">Midi Options</button>
+      <button @click="showPreferences = true">Preferences</button>
       <hr />
       <div v-if="hasKeyboard">
         <Challenge
@@ -43,15 +70,18 @@ import Challenge from "./components/Challenge";
 import MidiCapability from "./components/MidiCapability";
 import SubscriptionHandlingDeviceSelector from "./components/SubscriptionHandlingDeviceSelector";
 import preferences from "./preferences.json";
+import preferencesOptions from "./preferencesOptions.json";
 
 export default {
   name: "App",
   data: () => ({
     showMidiOptions: false,
+    showPreferences: false,
     midiOptions: {
       input: null
     },
-    preferences: {}
+    preferences: {}, // is read from JSON
+    preferencesOptions: {} // is read from JSON
   }),
   components: {
     SubscriptionHandlingDeviceSelector,
@@ -61,7 +91,9 @@ export default {
   },
   created() {
     this.showMidiOptions = !this.hasKeyboard;
+
     this.preferences = preferences;
+    this.preferencesOptions = preferencesOptions;
   },
   computed: {
     hasKeyboard() {
