@@ -23,8 +23,8 @@
         <Challenge
           v-if="hasKeyboard"
           :keyboard="midiOptions.input"
-          :base-note="60"
-          :note-limit="3"
+          :base-note="preferences.noteReading.baseNote"
+          :note-limit="preferences.noteReading.noteLimit"
         />
       </div>
       <div v-else>
@@ -46,6 +46,12 @@ export default {
     showMidiOptions: false,
     midiOptions: {
       input: null
+    },
+    preferences: {
+      noteReading: {
+        noteLimit: 3,
+        baseNote: 60
+      }
     }
   }),
   components: {
