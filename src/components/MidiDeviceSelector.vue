@@ -1,12 +1,12 @@
 <template>
   <div>
-    <label for="jaslmus-settings-midi-device">Select Device:</label>
+    <label for="jaslmus-settings-midi-device">{{ $i18n.t("midiOptions.input.device.title") }}</label>
     <select
       id="jaslmus-settings-midi-device"
       v-model="selected"
       @change="onChange($event)"
     >
-      <option disabled value="">Please select one</option>
+      <option disabled value="">{{ $i18n.t("midiOptions.input.device.placeholder") }}</option>
       <option
         v-for="option in options"
         v-bind:value="option.id"

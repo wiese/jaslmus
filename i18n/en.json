@@ -1,0 +1,52 @@
+{
+  "header": {
+    "title": "Jaslmus",
+    "punchline": "Learn to play the piano, all right."
+  },
+  "midi": {
+    "loading": "Loading MIDI capability…",
+    "error": "Problem loading MIDI capability. Please check browser permissions."
+  },
+  "midiOptions": {
+    "title": "MIDI options",
+    "close": "Close",
+    "input": {
+      "title": "MIDI In",
+      "device": {
+        "title": "Select Device:",
+        "placeholder": "Please select one"
+      },
+      "preview": {
+        "title": "Preview",
+        "description": "Strike a key to try the device! Notes will be shown here.",
+        "placeholder": "Please select one"
+      }
+    }
+  },
+  "preferences": {
+    "title": "Preferences",
+    "close": "Close",
+    "noteReading": {
+      "title": "Note reading",
+      "noteLimit": {
+        "title": "Notes",
+        "description": "Number of notes",
+        "placeholder": "Please select one"
+      }
+    }
+  },
+  "error": {
+    "noMidiDevice": "Jaslmus needs at least one input device to work. Please configure one."
+  },
+  "game": {
+    "noteReading": {
+      "title": "Note reading",
+      "description": "Play the respective key!",
+      "analysis": {
+        "successes": "Successes:",
+        "mistakes": "Mistakes:"
+      },
+      "start": "Start"
+    }
+  }
+}

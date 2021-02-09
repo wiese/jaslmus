@@ -1,14 +1,17 @@
 <template>
   <div>
-    <h1>Game</h1>
+    <h1>{{ $i18n.t("game.noteReading.title") }}</h1>
     <div v-if="gaming">
-      <p>Play the respective key!</p>
+      <p>{{ $i18n.t("game.noteReading.description") }}</p>
       <AbcNotation :abc="abc" />
       <span>{{ targetPitch }} ({{ abc }})</span><br />
-      <span>Successes: {{ successes }}, Mistakes: {{ mistakes }}</span>
+      <span>
+        {{ $i18n.t("game.noteReading.analysis.successes") }} {{ successes }},
+        {{ $i18n.t("game.noteReading.analysis.mistakes") }} {{ mistakes }}
+      </span>
     </div>
     <div v-else>
-      <button @click="start()">Start</button>
+      <button @click="start()">{{ $i18n.t("game.noteReading.start") }}</button>
     </div>
   </div>
 </template>

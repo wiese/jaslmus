@@ -1,39 +1,39 @@
 <template>
-  <h1>Jaslmus</h1>
-  <p>Learn to play the piano, all right.</p>
+  <h1>{{ $i18n.t("header.title") }}</h1>
+  <p>{{ $i18n.t("header.punchline") }}</p>
   <hr />
   <MidiCapability>
     <div v-if="showMidiOptions">
-      <button @click="showMidiOptions = false">close</button>
-      <h2>Midi Options</h2>
+      <button @click="showMidiOptions = false">{{ $i18n.t("midiOptions.close") }}</button>
+      <h2>{{ $i18n.t("midiOptions.title") }}</h2>
       <fieldset>
-        <legend>Midi in</legend>
+        <legend>{{ $i18n.t("midiOptions.input.title") }}</legend>
         <SubscriptionHandlingDeviceSelector
           :device="midiOptions.input"
           @deviceChanged="midiOptions.input = $event"
         />
         <div v-if="midiOptions.input">
-          <h3>Preview</h3>
-          <p>Strike a key to try the device! Notes will be shown here.</p>
+          <h3>{{ $i18n.t("midiOptions.input.preview.title") }}</h3>
+          <p>{{ $i18n.t("midiOptions.input.preview.description") }}</p>
           <ShowPlay :keyboard="midiOptions.input" />
         </div>
       </fieldset>
     </div>
     <div v-else-if="showPreferences">
-      <button @click="showPreferences = false">close</button>
-      <h2>Preferences</h2>
+      <button @click="showPreferences = false">{{ $i18n.t("preferences.close") }}</button>
+      <h2>{{ $i18n.t("preferences.title") }}</h2>
       <fieldset>
-        <legend>Note reading</legend>
+        <legend>{{ $i18n.t("preferences.noteReading.title") }}</legend>
         <fieldset>
-          <legend>Notes</legend>
+          <legend>{{ $i18n.t("preferences.noteReading.noteLimit.title") }}</legend>
           <label for="jaslmus-preferences-noteReading-noteLimit">
-            Number of Notes:
+            {{ $i18n.t("preferences.noteReading.noteLimit.description") }}
           </label>
           <select
             id="jaslmus-preferences-noteReading-noteLimit"
             v-model="preferences.noteReading.noteLimit"
           >
-            <option disabled value="">Please select one</option>
+            <option disabled value="">{{ $i18n.t("preferences.noteReading.noteLimit.placeholder") }}</option>
             <option
               v-for="option in preferencesOptions.noteReading.noteLimit"
               v-bind:value="option"
@@ -46,8 +46,8 @@
       </fieldset>
     </div>
     <div v-else>
-      <button @click="showMidiOptions = true">Midi Options</button>
-      <button @click="showPreferences = true">Preferences</button>
+      <button @click="showMidiOptions = true">{{ $i18n.t("midiOptions.title") }}</button>
+      <button @click="showPreferences = true">{{ $i18n.t("preferences.title") }}</button>
       <hr />
       <div v-if="hasKeyboard">
         <Challenge
@@ -58,7 +58,7 @@
         />
       </div>
       <div v-else>
-        Jaslmus needs at least one input device to work. Please configure one.
+        {{ $i18n.t("error.noMidiDevice") }}
       </div>
     </div>
   </MidiCapability>

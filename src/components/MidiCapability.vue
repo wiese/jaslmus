@@ -1,10 +1,10 @@
 <template>
   <div v-if="loading">
-    Loading MIDI capability…
+    {{ $i18n.t("midi.loading") }}
   </div>
   <template v-else>
     <div v-if="error">
-      Problem loading MIDI capability. Please check browser permissions.
+      {{ $i18n.t("midi.error") }}
     </div>
     <slot v-else />
   </template>
