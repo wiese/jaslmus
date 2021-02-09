@@ -12,14 +12,17 @@
           :device="midiOptions.input"
           @deviceChanged="midiOptions.input = $event"
         />
+        <div v-if="midiOptions.input">
+          <h3>Preview</h3>
+          <p>Strike a key to try the device! Notes will be shown here.</p>
+          <ShowPlay :keyboard="midiOptions.input" />
+        </div>
       </fieldset>
     </div>
     <div v-else>
       <button @click="showMidiOptions = true">Midi Options</button>
       <hr />
       <div v-if="hasKeyboard">
-        <ShowPlay :keyboard="midiOptions.input" />
-        <hr />
         <Challenge
           v-if="hasKeyboard"
           :keyboard="midiOptions.input"
