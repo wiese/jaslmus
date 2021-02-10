@@ -35,7 +35,7 @@
           >
             <option disabled value="">{{ $i18n.t("preferences.noteReading.noteLimit.placeholder") }}</option>
             <option
-              v-for="option in preferencesOptions.noteReading.noteLimit"
+              v-for="option in preferencesChoices.noteReading.noteLimit"
               v-bind:value="option"
               v-bind:key="option"
             >
@@ -70,18 +70,22 @@ import Challenge from "./components/Challenge";
 import MidiCapability from "./components/MidiCapability";
 import SubscriptionHandlingDeviceSelector from "./components/SubscriptionHandlingDeviceSelector";
 import preferences from "./preferences.json";
-import preferencesOptions from "./preferencesOptions.json";
 
 export default {
   name: "App",
+  props: {
+    preferencesChoices: {
+      required: true,
+      type: Object
+    }
+  },
   data: () => ({
     showMidiOptions: false,
     showPreferences: false,
     midiOptions: {
       input: null
     },
-    preferences: {}, // is read from JSON
-    preferencesOptions: {} // is read from JSON
+    preferences: {} // is read from JSON
   }),
   components: {
     SubscriptionHandlingDeviceSelector,
@@ -93,7 +97,6 @@ export default {
     this.showMidiOptions = !this.hasKeyboard;
 
     this.preferences = preferences;
-    this.preferencesOptions = preferencesOptions;
   },
   computed: {
     hasKeyboard() {
