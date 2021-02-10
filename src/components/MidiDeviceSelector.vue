@@ -8,7 +8,7 @@
     >
       <option disabled value="">{{ $i18n.t("midiOptions.input.device.placeholder") }}</option>
       <option
-        v-for="option in options"
+        v-for="option in inputs"
         v-bind:value="option.id"
         v-bind:key="option.id"
       >
@@ -27,15 +27,6 @@ export default {
     preferred: {
       required: false,
       type: Object
-    }
-  },
-  computed: {
-    options() {
-      const options = [];
-      this.inputs.forEach(value => {
-        options.push(value);
-      });
-      return options;
     }
   },
   data: () => ({
