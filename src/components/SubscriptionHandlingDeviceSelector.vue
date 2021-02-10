@@ -1,5 +1,5 @@
 <template>
-  <MidiDeviceSelector :preferred="device" @deviceChanged="deviceChanged" />
+  <MidiDeviceSelector :preferred="preferred" @deviceChanged="deviceChanged" />
 </template>
 
 <script>
@@ -11,19 +11,27 @@ export default {
     MidiDeviceSelector
   },
   props: {
-    device: {
+    deviceId: {
       required: false,
-      type: Object
+      type: String
+    }
+  },
+  data: () => ({
+    preferred: ""
+  }),
+  created() {
+    if (this.deviceId) {
+      this.preferred = this.deviceId;
     }
   },
   methods: {
-    deviceChanged(device) {
+    deviceChanged(current, previous) {
       // remove subscriptions from previous device
-      if (this.device && this.device.removeListener) {
-        this.device.removeListener();
+      if (previous && typeof previous.removeListener === "function") {
+        previous.removeListener();
       }
 
-      this.$emit("deviceChanged", device);
+      this.$emit("deviceChanged", current, previous);
     }
   },
   emits: ["deviceChanged"]

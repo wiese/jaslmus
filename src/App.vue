@@ -9,13 +9,13 @@
       <fieldset>
         <legend>{{ $i18n.t("midiOptions.input.title") }}</legend>
         <SubscriptionHandlingDeviceSelector
-          :device="midiOptions.input"
-          @deviceChanged="midiOptions.input = $event"
+          :deviceId="midiOptions.input"
+          @deviceChanged="deviceChanged"
         />
-        <div v-if="midiOptions.input">
+        <div v-if="hasKeyboard">
           <h3>{{ $i18n.t("midiOptions.input.preview.title") }}</h3>
           <p>{{ $i18n.t("midiOptions.input.preview.description") }}</p>
-          <ShowPlay :keyboard="midiOptions.input" />
+          <ShowPlay :keyboard="midiInput" />
         </div>
       </fieldset>
     </div>
@@ -52,7 +52,7 @@
       <div v-if="hasKeyboard">
         <Challenge
           v-if="hasKeyboard"
-          :keyboard="midiOptions.input"
+          :keyboard="midiInput"
           :base-note="preferences.noteReading.baseNote"
           :note-limit="preferences.noteReading.noteLimit"
         />
@@ -83,9 +83,10 @@ export default {
     showMidiOptions: false,
     showPreferences: false,
     midiOptions: {
-      input: null
+      input: ""
     },
-    preferences: {} // is read from JSON
+    preferences: {}, // is read from JSON
+    midiInput: null
   }),
   components: {
     SubscriptionHandlingDeviceSelector,
@@ -100,7 +101,13 @@ export default {
   },
   computed: {
     hasKeyboard() {
-      return !!this.midiOptions.input;
+      return !!this.midiInput;
+    }
+  },
+  methods: {
+    deviceChanged(current) {
+      this.midiOptions.input = current.id;
+      this.midiInput = current;
     }
   }
 };

@@ -1,12 +1,12 @@
 <template>
   <div>
-    <label for="jaslmus-settings-midi-device">{{ $i18n.t("midiOptions.input.device.title") }}</label>
-    <select
-      id="jaslmus-settings-midi-device"
-      v-model="selected"
-      @change="onChange($event)"
-    >
-      <option disabled value="">{{ $i18n.t("midiOptions.input.device.placeholder") }}</option>
+    <label for="jaslmus-settings-midi-device">
+      {{ $i18n.t("midiOptions.input.device.title") }}
+    </label>
+    <select id="jaslmus-settings-midi-device" v-model="selected">
+      <option disabled value="">
+        {{ $i18n.t("midiOptions.input.device.placeholder") }}
+      </option>
       <option
         v-for="option in inputs"
         v-bind:value="option.id"
@@ -26,28 +26,30 @@ export default {
   props: {
     preferred: {
       required: false,
-      type: Object
+      type: String
     }
   },
-  data: () => ({
-    selected: "",
-    inputs: []
-  }),
+  data() {
+    return {
+      selected: WebMidi.getInputById(this.preferred) ? this.preferred : "",
+      inputs: []
+    };
+  },
+  watch: {
+    selected(current, previous) {
+      this.$emit(
+        "deviceChanged",
+        WebMidi.getInputById(current) || null,
+        WebMidi.getInputById(previous) || null
+      );
+    }
+  },
   created() {
     if (!WebMidi.enabled) {
       throw new Error("WebMidi must be enabled for this component to work!");
     }
 
     this.inputs = WebMidi.inputs;
-
-    if (this.preferred && WebMidi.getInputById(this.preferred.id)) {
-      this.selected = this.preferred.id;
-    }
-  },
-  methods: {
-    onChange(event) {
-      this.$emit("deviceChanged", WebMidi.getInputById(event.target.value));
-    }
   },
   emits: ["deviceChanged"]
 };
