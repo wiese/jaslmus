@@ -4,7 +4,7 @@
     <div v-if="gaming">
       <p>{{ $i18n.t("game.noteReading.description") }}</p>
       <AbcNotation :abc="abc" />
-      <span>{{ targetPitch }} ({{ abc }})</span><br />
+      <span>{{ targetPitch }} ({{ targetNote }})</span><br />
       <span>
         {{ $i18n.t("game.noteReading.analysis.successes") }} {{ successes }},
         {{ $i18n.t("game.noteReading.analysis.mistakes") }} {{ mistakes }}
@@ -66,6 +66,9 @@ export default {
       return this.$i18n.t("game.noteReading.startViaKeyHint", {
         key: `${START_ON_KEY} (${this.midiToAbc(START_ON_KEY)})`
       });
+    },
+    targetNote() {
+      return this.midiToAbc(this.targetPitch);
     }
   },
   methods: {
@@ -78,7 +81,7 @@ export default {
       }
 
       this.targetPitch = this.randomIntFromInterval(this.baseNote, upper);
-      this.abc = `X:1\nK:C\n${this.midiToAbc(this.targetPitch)}`;
+      this.abc = `X:1\nK:C\n${this.targetNote}`;
     },
     start() {
       this.gaming = true;
