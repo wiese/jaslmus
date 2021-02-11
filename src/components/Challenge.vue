@@ -9,9 +9,22 @@
         {{ $i18n.t("game.noteReading.analysis.successes") }} {{ successes }},
         {{ $i18n.t("game.noteReading.analysis.mistakes") }} {{ mistakes }}
       </span>
+      <br />
+      <button @click="finish()">
+        {{ $i18n.t("game.noteReading.stop") }}
+      </button>
+    </div>
+    <div v-else-if="finished">
+      {{ $i18n.t("game.noteReading.finished") }}<br />
+      {{ $i18n.t("game.noteReading.analysis.successes") }} {{ successes }},
+      {{ $i18n.t("game.noteReading.analysis.mistakes") }} {{ mistakes }}
+      <br />
+      <button @click="reset()">
+        {{ $i18n.t("game.noteReading.reset") }}
+      </button>
     </div>
     <div v-else>
-      <button @click="start()" title="">
+      <button @click="start()">
         {{ $i18n.t("game.noteReading.start") }}
       </button>
       <p>
@@ -43,14 +56,25 @@ export default {
       validator: value => {
         return value === null || Number.isInteger(value);
       }
+    },
+    speed: {
+      required: true,
+      type: Number,
+      validator: Number.isInteger
+    },
+    heats: {
+      default: 10,
+      type: Number
     }
   },
   data: () => ({
     gaming: false,
+    finished: false,
     abc: "",
     targetPitch: "",
     mistakes: 0,
-    successes: 0
+    successes: 0,
+    timeout: null
   }),
   components: {
     AbcNotation
@@ -82,23 +106,52 @@ export default {
 
       this.targetPitch = this.randomIntFromInterval(this.baseNote, upper);
       this.abc = `X:1\nK:C\n${this.targetNote}`;
+
+      this.timeout = window.setTimeout(this.noResponse, this.speed);
+    },
+    reset() {
+      Object.assign(this.$data, this.$options.data.apply(this));
     },
     start() {
+      this.reset();
       this.gaming = true;
+      this.createNewChallenge();
+    },
+    finish() {
+      window.clearTimeout(this.timeout);
+      this.gaming = false;
+      this.finished = true;
+    },
+    next() {
+      if (this.successes + this.mistakes >= this.heats) {
+        this.finish();
+        return;
+      }
       this.createNewChallenge();
     },
     evaluateInput(midiEvent) {
       if (this.gaming) {
         this.evaluateResponse(midiEvent);
-      } else if (midiEvent.data[1] === START_ON_KEY) {
-        this.start();
+      } else {
+        if (midiEvent.data[1] === START_ON_KEY) {
+          if (this.finished) {
+            this.reset();
+          } else {
+            this.start();
+          }
+        }
       }
+    },
+    noResponse() {
+      this.mistakes++;
+      this.next();
     },
     evaluateResponse(midiEvent) {
       const pitch = midiEvent.data[1];
       if (pitch === this.targetPitch) {
+        window.clearTimeout(this.timeout);
         this.successes++;
-        this.createNewChallenge();
+        this.next();
       } else {
         this.mistakes++;
       }

@@ -32,6 +32,16 @@
         "title": "Notes",
         "description": "Number of notes",
         "placeholder": "Please select one"
+      },
+      "speed": {
+        "title": "Speed",
+        "choices": {
+          "largo": "Largo",
+          "adagio": "Adagio",
+          "moderato": "Moderato",
+          "allegro": "Allegro",
+          "presto": "Presto"
+        }
       }
     }
   },
@@ -47,7 +57,10 @@
         "mistakes": "Mistakes:"
       },
       "start": "Start",
-      "startViaKeyHint": "You can also start the game via key {key} on your MIDI device."
+      "stop": "Stop",
+      "reset": "Reset",
+      "startViaKeyHint": "You can also start the game via key {key} on your MIDI device.",
+      "finished": "Finished!"
     }
   }
 }

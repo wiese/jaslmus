@@ -6,6 +6,28 @@
       9,
       15,
       null
+    ],
+    "speed": [
+      {
+        "id": "largo",
+        "value": 7000
+      },
+      {
+        "id": "adagio",
+        "value": 5000
+      },
+      {
+        "id": "moderato",
+        "value": 4000
+      },
+      {
+        "id": "allegro",
+        "value": 3000
+      },
+      {
+        "id": "presto",
+        "value": 2000
+      }
     ]
   }
 }

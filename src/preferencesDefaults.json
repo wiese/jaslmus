@@ -1,9 +1,10 @@
 {
-  "version": 1,
+  "version": 2,
   "defaults": {
     "noteReading": {
       "baseNote": 60,
-      "noteLimit": 3
+      "noteLimit": 3,
+      "speed": 4000
     }
   }
 }
