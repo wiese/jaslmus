@@ -4,7 +4,9 @@
   <hr />
   <MidiCapability @midiReady="midiReady">
     <div v-if="showMidiOptions">
-      <button @click="showMidiOptions = false">{{ $i18n.t("midiOptions.close") }}</button>
+      <button @click="showMidiOptions = false">
+        {{ $i18n.t("midiOptions.close") }}
+      </button>
       <h2>{{ $i18n.t("midiOptions.title") }}</h2>
       <fieldset>
         <legend>{{ $i18n.t("midiOptions.input.title") }}</legend>
@@ -20,12 +22,16 @@
       </fieldset>
     </div>
     <div v-else-if="showPreferences">
-      <button @click="showPreferences = false">{{ $i18n.t("preferences.close") }}</button>
+      <button @click="showPreferences = false">
+        {{ $i18n.t("preferences.close") }}
+      </button>
       <h2>{{ $i18n.t("preferences.title") }}</h2>
       <fieldset>
         <legend>{{ $i18n.t("preferences.noteReading.title") }}</legend>
         <fieldset>
-          <legend>{{ $i18n.t("preferences.noteReading.noteLimit.title") }}</legend>
+          <legend>
+            {{ $i18n.t("preferences.noteReading.noteLimit.title") }}
+          </legend>
           <label for="jaslmus-preferences-noteReading-noteLimit">
             {{ $i18n.t("preferences.noteReading.noteLimit.description") }}
           </label>
@@ -33,7 +39,9 @@
             id="jaslmus-preferences-noteReading-noteLimit"
             v-model="preferences.noteReading.noteLimit"
           >
-            <option disabled value="">{{ $i18n.t("preferences.noteReading.noteLimit.placeholder") }}</option>
+            <option disabled value="">{{
+              $i18n.t("preferences.noteReading.noteLimit.placeholder")
+            }}</option>
             <option
               v-for="option in preferencesChoices.noteReading.noteLimit"
               v-bind:value="option"
@@ -46,8 +54,12 @@
       </fieldset>
     </div>
     <div v-else>
-      <button @click="showMidiOptions = true">{{ $i18n.t("midiOptions.title") }}</button>
-      <button @click="showPreferences = true">{{ $i18n.t("preferences.title") }}</button>
+      <button @click="showMidiOptions = true">
+        {{ $i18n.t("midiOptions.title") }}
+      </button>
+      <button @click="showPreferences = true">
+        {{ $i18n.t("preferences.title") }}
+      </button>
       <hr />
       <div v-if="hasKeyboard">
         <Challenge
