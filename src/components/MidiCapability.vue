@@ -23,28 +23,10 @@ export default {
     WebMidi.disable();
   },
   created() {
-    this.ensureMidiEnabled()
-      .catch(() => {
+    if (!WebMidi.enabled) {
+      WebMidi.enable(err => {
+        this.error = !!err;
         this.loading = false;
-        this.error = true;
-      })
-      .then(() => {
-        this.loading = false;
-      });
-  },
-  methods: {
-    ensureMidiEnabled() {
-      if (WebMidi.enabled) {
-        return Promise.resolve();
-      }
-      return new Promise((resolve, reject) => {
-        WebMidi.enable(err => {
-          if (err) {
-            reject();
-            return;
-          }
-          resolve();
-        });
       });
     }
   }
