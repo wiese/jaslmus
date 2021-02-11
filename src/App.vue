@@ -2,7 +2,7 @@
   <h1>{{ $i18n.t("header.title") }}</h1>
   <p>{{ $i18n.t("header.punchline") }}</p>
   <hr />
-  <MidiCapability>
+  <MidiCapability @midiReady="midiReady">
     <div v-if="showMidiOptions">
       <button @click="showMidiOptions = false">{{ $i18n.t("midiOptions.close") }}</button>
       <h2>{{ $i18n.t("midiOptions.title") }}</h2>
@@ -70,6 +70,7 @@ import Challenge from "./components/Challenge";
 import MidiCapability from "./components/MidiCapability";
 import SubscriptionHandlingDeviceSelector from "./components/SubscriptionHandlingDeviceSelector";
 import preferences from "./preferences.json";
+import WebMidi from "webmidi";
 
 export default {
   name: "App",
@@ -95,8 +96,6 @@ export default {
     ShowPlay
   },
   created() {
-    this.showMidiOptions = !this.hasKeyboard;
-
     this.preferences = preferences;
   },
   computed: {
@@ -108,6 +107,12 @@ export default {
     deviceChanged(current) {
       this.midiOptions.input = current.id;
       this.midiInput = current;
+    },
+    midiReady() {
+      if (this.midiOptions.input) {
+        this.midiInput = WebMidi.getInputById(this.midiOptions.input) || null;
+      }
+      this.showMidiOptions = !this.hasKeyboard;
     }
   }
 };

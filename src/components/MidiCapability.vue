@@ -27,8 +27,10 @@ export default {
       WebMidi.enable(err => {
         this.error = !!err;
         this.loading = false;
+        this.$emit("midiReady");
       });
     }
-  }
+  },
+  emits: ["midiReady"]
 };
 </script>
