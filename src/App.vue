@@ -69,10 +69,10 @@ import ShowPlay from "./components/ShowPlay";
 import Challenge from "./components/Challenge";
 import MidiCapability from "./components/MidiCapability";
 import SubscriptionHandlingDeviceSelector from "./components/SubscriptionHandlingDeviceSelector";
-import preferences from "./preferences.json";
 import WebMidi from "webmidi";
 import { storedPropMixin } from "./storedPropMixin";
 import midiOptionsDefaults from "./midiOptionsDefaults.json";
+import preferencesDefaults from "./preferencesDefaults.json";
 
 export default {
   name: "App",
@@ -81,6 +81,11 @@ export default {
       "midiOptions",
       midiOptionsDefaults.version,
       midiOptionsDefaults.defaults
+    ),
+    storedPropMixin(
+      "preferences",
+      preferencesDefaults.version,
+      preferencesDefaults.defaults
     )
   ],
   props: {
@@ -92,7 +97,6 @@ export default {
   data: () => ({
     showMidiOptions: false,
     showPreferences: false,
-    preferences: {}, // is read from JSON
     midiInput: null
   }),
   components: {
@@ -100,9 +104,6 @@ export default {
     MidiCapability,
     Challenge,
     ShowPlay
-  },
-  created() {
-    this.preferences = preferences;
   },
   computed: {
     hasKeyboard() {

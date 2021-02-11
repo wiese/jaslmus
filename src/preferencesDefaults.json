@@ -1,0 +1,9 @@
+{
+  "version": 1,
+  "defaults": {
+    "noteReading": {
+      "baseNote": 60,
+      "noteLimit": 3
+    }
+  }
+}
