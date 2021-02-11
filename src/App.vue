@@ -71,9 +71,18 @@ import MidiCapability from "./components/MidiCapability";
 import SubscriptionHandlingDeviceSelector from "./components/SubscriptionHandlingDeviceSelector";
 import preferences from "./preferences.json";
 import WebMidi from "webmidi";
+import { storedPropMixin } from "./storedPropMixin";
+import midiOptionsDefaults from "./midiOptionsDefaults.json";
 
 export default {
   name: "App",
+  mixins: [
+    storedPropMixin(
+      "midiOptions",
+      midiOptionsDefaults.version,
+      midiOptionsDefaults.defaults
+    )
+  ],
   props: {
     preferencesChoices: {
       required: true,
@@ -83,9 +92,6 @@ export default {
   data: () => ({
     showMidiOptions: false,
     showPreferences: false,
-    midiOptions: {
-      input: ""
-    },
     preferences: {}, // is read from JSON
     midiInput: null
   }),
