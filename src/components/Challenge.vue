@@ -95,10 +95,10 @@ export default {
       const pitch = midiEvent.data[1];
       if (pitch === this.targetPitch) {
         this.successes++;
+        this.createNewChallenge();
       } else {
         this.mistakes++;
       }
-      this.createNewChallenge();
     },
     randomIntFromInterval(min, max) {
       return Math.floor(Math.random() * (max - min + 1) + min);
