@@ -94,27 +94,30 @@
   </MidiCapability>
 </template>
 
-<script>
-import ShowPlay from "./components/ShowPlay";
-import Challenge from "./components/Challenge";
-import MidiCapability from "./components/MidiCapability";
-import SubscriptionHandlingDeviceSelector from "./components/SubscriptionHandlingDeviceSelector";
-import WebMidi from "webmidi";
+<script lang="ts">
+import { defineComponent, ComponentPublicInstance } from "vue"; // eslint-disable-line no-unused-vars
+import ShowPlay from "./components/ShowPlay.vue";
+import Challenge from "./components/Challenge.vue";
+import MidiCapability from "./components/MidiCapability.vue";
+import SubscriptionHandlingDeviceSelector from "./components/SubscriptionHandlingDeviceSelector.vue";
+import WebMidi, { Input } from "webmidi"; // eslint-disable-line no-unused-vars
 import { storedPropMixin } from "./storedPropMixin";
 import midiOptionsDefaults from "./midiOptionsDefaults.json";
 import preferencesDefaults from "./preferencesDefaults.json";
 
-export default {
+export default defineComponent({
   name: "App",
   mixins: [
     storedPropMixin(
       "midiOptions",
-      midiOptionsDefaults.version,
+      midiOptionsDefaults.version.toString(),
       midiOptionsDefaults.defaults
-    ),
+    ) as ComponentPublicInstance<
+      Readonly<{ midiOptions: Record<string, any> }>
+    >, // TODO not sure how to do this properly. using composition API probably
     storedPropMixin(
       "preferences",
-      preferencesDefaults.version,
+      preferencesDefaults.version.toString(),
       preferencesDefaults.defaults
     )
   ],
@@ -127,7 +130,7 @@ export default {
   data: () => ({
     showMidiOptions: false,
     showPreferences: false,
-    midiInput: null
+    midiInput: null as Input | null
   }),
   components: {
     SubscriptionHandlingDeviceSelector,
@@ -136,12 +139,12 @@ export default {
     ShowPlay
   },
   computed: {
-    hasKeyboard() {
+    hasKeyboard(): boolean {
       return !!this.midiInput;
     }
   },
   methods: {
-    deviceChanged(current) {
+    deviceChanged(current: Input) {
       this.midiOptions.input = current.id;
       this.midiInput = current;
     },
@@ -152,7 +155,7 @@ export default {
       this.showMidiOptions = !this.hasKeyboard;
     }
   }
-};
+});
 </script>
 
 <style>

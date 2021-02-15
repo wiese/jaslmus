@@ -34,18 +34,21 @@
   </div>
 </template>
 
-<script>
-import AbcNotation from "./AbcNotation";
+<script lang="ts">
+import { defineComponent, PropType } from "vue"; // eslint-disable-line no-unused-vars
+import AbcNotation from "./AbcNotation.vue";
 import Midi from "@tonaljs/midi";
 import TonalAbcNotation from "@tonaljs/abc-notation";
+import { Input, InputEvents } from "webmidi"; // eslint-disable-line no-unused-vars
+import { VueI18n } from "vue-i18n"; // eslint-disable-line no-unused-vars
 
 export const START_ON_KEY = 60; // middle C
 
-export default {
+export default defineComponent({
   props: {
     keyboard: {
       required: true,
-      type: Object
+      type: Object as PropType<Input>
     },
     baseNote: {
       required: true,
@@ -55,7 +58,9 @@ export default {
     noteLimit: {
       validator: value => {
         return value === null || Number.isInteger(value);
-      }
+      },
+      type: Number as PropType<number | null>,
+      default: null
     },
     speed: {
       required: true,
@@ -71,10 +76,10 @@ export default {
     gaming: false,
     finished: false,
     abc: "",
-    targetPitch: "",
+    targetPitch: undefined as number | undefined,
     mistakes: 0,
     successes: 0,
-    timeout: null
+    timeout: undefined as number | undefined
   }),
   components: {
     AbcNotation
@@ -86,12 +91,15 @@ export default {
     this.keyboard.addListener("noteon", "all", this.evaluateInput);
   },
   computed: {
-    startViaKeyHint() {
-      return this.$i18n.t("game.noteReading.startViaKeyHint", {
+    startViaKeyHint(): string {
+      return (this.$i18n as VueI18n).t("game.noteReading.startViaKeyHint", {
         key: `${START_ON_KEY} (${this.midiToAbc(START_ON_KEY)})`
       });
     },
-    targetNote() {
+    targetNote(): string {
+      if (this.targetPitch === undefined) {
+        throw Error("Need pitch to generate note!");
+      }
       return this.midiToAbc(this.targetPitch);
     }
   },
@@ -110,7 +118,8 @@ export default {
       this.timeout = window.setTimeout(this.noResponse, this.speed);
     },
     reset() {
-      Object.assign(this.$data, this.$options.data.apply(this));
+      // @ts-ignore The 'this' context… is not assignable to method's 'this' - no idea how to make this work nicely
+      Object.assign(this.$data, this.$options.data!.apply(this));
     },
     start() {
       this.reset();
@@ -129,7 +138,7 @@ export default {
       }
       this.createNewChallenge();
     },
-    evaluateInput(midiEvent) {
+    evaluateInput(midiEvent: InputEvents["noteon"]) {
       if (this.gaming) {
         this.evaluateResponse(midiEvent);
       } else {
@@ -146,7 +155,7 @@ export default {
       this.mistakes++;
       this.next();
     },
-    evaluateResponse(midiEvent) {
+    evaluateResponse(midiEvent: InputEvents["noteon"]) {
       const pitch = midiEvent.data[1];
       if (pitch === this.targetPitch) {
         window.clearTimeout(this.timeout);
@@ -156,14 +165,14 @@ export default {
         this.mistakes++;
       }
     },
-    randomIntFromInterval(min, max) {
+    randomIntFromInterval(min: number, max: number) {
       return Math.floor(Math.random() * (max - min + 1) + min);
     },
-    midiToAbc(pitch) {
+    midiToAbc(pitch: number) {
       return TonalAbcNotation.scientificToAbcNotation(
         Midi.midiToNoteName(pitch)
       );
     }
   }
-};
+});
 </script>

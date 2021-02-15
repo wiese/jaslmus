@@ -2,10 +2,12 @@
   <MidiDeviceSelector :preferred="preferred" @deviceChanged="deviceChanged" />
 </template>
 
-<script>
-import MidiDeviceSelector from "./MidiDeviceSelector";
+<script lang="ts">
+import { defineComponent } from "vue";
+import MidiDeviceSelector from "./MidiDeviceSelector.vue";
+import { Input } from "webmidi"; // eslint-disable-line no-unused-vars
 
-export default {
+export default defineComponent({
   name: "SubscriptionHandlingDeviceSelector",
   components: {
     MidiDeviceSelector
@@ -25,7 +27,7 @@ export default {
     }
   },
   methods: {
-    deviceChanged(current, previous) {
+    deviceChanged(current: Input, previous: Input | null) {
       // remove subscriptions from previous device
       if (previous && typeof previous.removeListener === "function") {
         previous.removeListener();
@@ -35,5 +37,5 @@ export default {
     }
   },
   emits: ["deviceChanged"]
-};
+});
 </script>

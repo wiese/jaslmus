@@ -18,18 +18,20 @@
   </div>
 </template>
 
-<script>
-import WebMidi from "webmidi";
+<script lang="ts">
+import { defineComponent } from "vue";
+import WebMidi, { Input } from "webmidi"; // eslint-disable-line no-unused-vars
 
-export default {
+export default defineComponent({
   name: "MidiDeviceSelector",
   props: {
     preferred: {
       required: false,
-      type: String
+      type: String,
+      default: ""
     }
   },
-  data() {
+  data(): { selected: string; inputs: Input[] } {
     return {
       selected: WebMidi.getInputById(this.preferred) ? this.preferred : "",
       inputs: []
@@ -52,7 +54,7 @@ export default {
     this.inputs = WebMidi.inputs;
   },
   emits: ["deviceChanged"]
-};
+});
 </script>
 
 <style></style>

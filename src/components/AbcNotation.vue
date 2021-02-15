@@ -2,11 +2,12 @@
   <div ref="notation"></div>
 </template>
 
-<script>
+<script lang="ts">
+import { defineComponent } from "vue";
 import AbcNotation from "abcjs";
 import "abcjs/abcjs-midi.css";
 
-export default {
+export default defineComponent({
   props: {
     abc: {
       required: true,
@@ -26,14 +27,8 @@ export default {
       if (this.abc === "") {
         return;
       }
-      AbcNotation.renderAbc(
-        this.$refs.notation,
-        this.abc,
-        {},
-        { generateInline: true },
-        {}
-      );
+      AbcNotation.renderAbc(this.$refs.notation as HTMLElement, this.abc, {});
     }
   }
-};
+});
 </script>

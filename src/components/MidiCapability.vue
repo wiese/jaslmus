@@ -10,10 +10,11 @@
   </template>
 </template>
 
-<script>
+<script lang="ts">
+import { defineComponent } from "vue";
 import WebMidi from "webmidi";
 
-export default {
+export default defineComponent({
   name: "MidiCapability",
   data: () => ({
     loading: true,
@@ -32,5 +33,5 @@ export default {
     }
   },
   emits: ["midiReady"]
-};
+});
 </script>

@@ -3,17 +3,19 @@
   <p ref="notes"></p>
 </template>
 
-<script>
+<script lang="ts">
+import { defineComponent, PropType } from "vue"; // eslint-disable-line no-unused-vars
 import AbcNotation from "./AbcNotation.vue";
 import Midi from "@tonaljs/midi";
 import TonalAbcNotation from "@tonaljs/abc-notation";
+import { Input, InputEvents } from "webmidi"; // eslint-disable-line no-unused-vars
 
-export default {
+export default defineComponent({
   name: "ShowPlay",
   props: {
     keyboard: {
       required: true,
-      type: Object
+      type: Object as PropType<Input>
     }
   },
   data: () => ({
@@ -29,14 +31,14 @@ export default {
     this.keyboard.addListener("noteon", "all", this.midiSubscription);
   },
   methods: {
-    midiSubscription(midiEvent) {
+    midiSubscription(midiEvent: InputEvents["noteon"]) {
       const pitch = midiEvent.data[1];
       const abc = TonalAbcNotation.scientificToAbcNotation(
         Midi.midiToNoteName(pitch)
       );
       this.abc = `X:1\nK:C\n${abc}`;
-      this.$refs.notes.innerHTML += `${pitch} (${abc})<br />`;
+      (this.$refs.notes as HTMLElement).innerHTML += `${pitch} (${abc})<br />`;
     }
   }
-};
+});
 </script>
