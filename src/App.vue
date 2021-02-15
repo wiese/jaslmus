@@ -36,15 +36,17 @@
             {{ $i18n.t("preferences.noteReading.speed.title") }}
           </label>
           <select
-              id="jaslmus-preferences-noteReading-speed"
-              v-model="preferences.noteReading.speed"
+            id="jaslmus-preferences-noteReading-speed"
+            v-model="preferences.noteReading.speed"
           >
             <option
-                v-for="option in preferencesChoices.noteReading.speed"
-                v-bind:value="option.value"
-                v-bind:key="option.id"
+              v-for="option in preferencesChoices.noteReading.speed"
+              v-bind:value="option.value"
+              v-bind:key="option.id"
             >
-              {{ $i18n.t(`preferences.noteReading.speed.choices.${option.id}`) }}
+              {{
+                $i18n.t(`preferences.noteReading.speed.choices.${option.id}`)
+              }}
             </option>
           </select>
           <label for="jaslmus-preferences-noteReading-noteLimit">
