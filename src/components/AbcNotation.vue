@@ -27,8 +27,12 @@ export default defineComponent({
       if (this.abc === "") {
         return;
       }
-      AbcNotation.renderAbc(this.$refs.notation as HTMLElement, this.abc, {});
+      AbcNotation.renderAbc(this.$refs.notation as HTMLElement, this.abc, {
+        add_classes: true
+      });
+      this.$emit("rendered");
     }
-  }
+  },
+  emits: ["rendered"]
 });
 </script>

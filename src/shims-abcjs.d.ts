@@ -13,6 +13,7 @@ declare module "abcjs" {
     };
     responsive?: ResponsiveMode;
     gfont?: string;
+    add_classes?: boolean;
   }
 
   export function renderAbc(

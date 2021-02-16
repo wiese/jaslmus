@@ -3,7 +3,7 @@
     <h1>{{ $i18n.t("game.noteReading.title") }}</h1>
     <div v-if="gaming">
       <p>{{ $i18n.t("game.noteReading.description") }}</p>
-      <AbcNotation :abc="abc" />
+      <AnimatedAbcNotation :abc="abc" :animationDuration="speed" />
       <span>{{ targetPitch }} ({{ targetNote }})</span><br />
       <span>
         {{ $i18n.t("game.noteReading.analysis.successes") }} {{ successes }},
@@ -36,7 +36,7 @@
 
 <script lang="ts">
 import { defineComponent, PropType } from "vue"; // eslint-disable-line no-unused-vars
-import AbcNotation from "./AbcNotation.vue";
+import AnimatedAbcNotation from "./AnimatedAbcNotation.vue";
 import Midi from "@tonaljs/midi";
 import TonalAbcNotation from "@tonaljs/abc-notation";
 import challengeGenerator from "@/challengeGenerator";
@@ -83,7 +83,7 @@ export default defineComponent({
     generator: undefined as Generator<number> | undefined
   }),
   components: {
-    AbcNotation
+    AnimatedAbcNotation
   },
   unmounted() {
     this.keyboard.removeListener("noteon", "all", this.evaluateInput);
