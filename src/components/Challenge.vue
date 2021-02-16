@@ -39,6 +39,7 @@ import { defineComponent, PropType } from "vue"; // eslint-disable-line no-unuse
 import AbcNotation from "./AbcNotation.vue";
 import Midi from "@tonaljs/midi";
 import TonalAbcNotation from "@tonaljs/abc-notation";
+import challengeGenerator from "@/challengeGenerator";
 import { Input, InputEvents } from "webmidi"; // eslint-disable-line no-unused-vars
 import { VueI18n } from "vue-i18n"; // eslint-disable-line no-unused-vars
 
@@ -75,11 +76,11 @@ export default defineComponent({
   data: () => ({
     gaming: false,
     finished: false,
-    abc: "",
     targetPitch: undefined as number | undefined,
     mistakes: 0,
     successes: 0,
-    timeout: undefined as number | undefined
+    timeout: undefined as number | undefined,
+    generator: undefined as Generator<number> | undefined
   }),
   components: {
     AbcNotation
@@ -101,22 +102,12 @@ export default defineComponent({
         throw Error("Need pitch to generate note!");
       }
       return this.midiToAbc(this.targetPitch);
+    },
+    abc(): string {
+      return `X:1\nK:C\n${this.targetNote}`;
     }
   },
   methods: {
-    createNewChallenge() {
-      let upper;
-      if (this.noteLimit === null) {
-        upper = 127;
-      } else {
-        upper = this.baseNote + this.noteLimit - 1;
-      }
-
-      this.targetPitch = this.randomIntFromInterval(this.baseNote, upper);
-      this.abc = `X:1\nK:C\n${this.targetNote}`;
-
-      this.timeout = window.setTimeout(this.noResponse, this.speed);
-    },
     reset() {
       // @ts-ignore The 'this' context… is not assignable to method's 'this' - no idea how to make this work nicely
       Object.assign(this.$data, this.$options.data!.apply(this));
@@ -124,7 +115,8 @@ export default defineComponent({
     start() {
       this.reset();
       this.gaming = true;
-      this.createNewChallenge();
+      this.generator = challengeGenerator(this.baseNote, this.noteLimit);
+      this.next();
     },
     finish() {
       window.clearTimeout(this.timeout);
@@ -132,11 +124,19 @@ export default defineComponent({
       this.finished = true;
     },
     next() {
-      if (this.successes + this.mistakes >= this.heats) {
+      if (!this.generator) {
+        throw new Error("Can only run after generator was set up");
+      }
+      const challenge = this.generator.next();
+
+      if (challenge.done || this.successes + this.mistakes >= this.heats) {
         this.finish();
         return;
       }
-      this.createNewChallenge();
+
+      this.targetPitch = challenge.value;
+
+      this.timeout = window.setTimeout(this.noResponse, this.speed);
     },
     evaluateInput(midiEvent: InputEvents["noteon"]) {
       if (this.gaming) {
@@ -164,9 +164,6 @@ export default defineComponent({
       } else {
         this.mistakes++;
       }
-    },
-    randomIntFromInterval(min: number, max: number) {
-      return Math.floor(Math.random() * (max - min + 1) + min);
     },
     midiToAbc(pitch: number) {
       return TonalAbcNotation.scientificToAbcNotation(
