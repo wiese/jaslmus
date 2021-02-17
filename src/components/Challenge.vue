@@ -3,8 +3,15 @@
     <h1>{{ $i18n.t("game.noteReading.title") }}</h1>
     <div v-if="gaming">
       <p>{{ $i18n.t("game.noteReading.description") }}</p>
-      <AnimatedAbcNotation :abc="abc" :animationDuration="speed" />
-      <span>{{ targetPitch }} ({{ targetNote }})</span><br />
+      <AnimatedAbcNotation
+        :abc="abc"
+        :animationDuration="speed"
+        :key="`heat_no_${heat}`"
+      />
+      <span>{{ targetPitch }} ({{ targetNote }})</span>
+      <br />
+      <span>{{ heat }}/{{ heats }}</span>
+      <br />
       <span>
         {{ $i18n.t("game.noteReading.analysis.successes") }} {{ successes }},
         {{ $i18n.t("game.noteReading.analysis.mistakes") }} {{ mistakes }}
@@ -80,7 +87,8 @@ export default defineComponent({
     mistakes: 0,
     successes: 0,
     timeout: undefined as number | undefined,
-    generator: undefined as Generator<number> | undefined
+    generator: undefined as Generator<number> | undefined,
+    heat: 0
   }),
   components: {
     AnimatedAbcNotation
@@ -129,7 +137,7 @@ export default defineComponent({
       }
       const challenge = this.generator.next();
 
-      if (challenge.done || this.successes + this.mistakes >= this.heats) {
+      if (challenge.done || this.heat >= this.heats) {
         this.finish();
         return;
       }
@@ -137,6 +145,8 @@ export default defineComponent({
       this.targetPitch = challenge.value;
 
       this.timeout = window.setTimeout(this.noResponse, this.speed);
+
+      this.heat++;
     },
     evaluateInput(midiEvent: InputEvents["noteon"]) {
       if (this.gaming) {
