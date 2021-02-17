@@ -18,4 +18,27 @@ describe("challengeGenerator", () => {
     expect(next.value).toBeGreaterThanOrEqual(baseNote);
     expect(next.value).toBeLessThanOrEqual(baseNote + noteLimit);
   });
+
+  it("does not yield the same note twice in a row if it can help it (by generating another one)", () => {
+    const baseNote = 5;
+    const generator = challengeGenerator(baseNote, 2);
+
+    const mathRandom = jest.spyOn(Math, "random");
+    mathRandom
+      .mockReturnValueOnce(0.1)
+      .mockReturnValueOnce(0.1)
+      .mockReturnValueOnce(0.5);
+    expect(generator.next().value).toBe(5);
+    expect(generator.next().value).toBe(6);
+    expect(mathRandom).toHaveBeenCalledTimes(3);
+  });
+
+  it("yields the same note time and again if it's the only one allowed", () => {
+    const baseNote = 5;
+    const generator = challengeGenerator(baseNote, 1);
+
+    expect(generator.next().value).toBe(baseNote);
+    expect(generator.next().value).toBe(baseNote);
+    expect(generator.next().value).toBe(baseNote);
+  });
 });
