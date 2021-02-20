@@ -29,13 +29,19 @@
     "noteReading": {
       "title": "Note reading",
       "noteLimit": {
-        "title": "Notes",
-        "description": "Number of notes",
-        "placeholder": "Please select one"
+        "label": "Notes",
+        "placeholder": "Please select one",
+        "options": {
+          "3": "3",
+          "5": "5",
+          "9": "9",
+          "15": "15",
+          "0": "all notes"
+        }
       },
       "speed": {
-        "title": "Speed",
-        "choices": {
+        "label": "Speed",
+        "options": {
           "largo": "Largo",
           "adagio": "Adagio",
           "moderato": "Moderato",

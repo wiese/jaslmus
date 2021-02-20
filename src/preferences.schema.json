@@ -1,0 +1,54 @@
+{
+  "noteReading": {
+    "speed": {
+      "component": "jaslmus-form-dropdown",
+      "options": [
+        {
+          "id": "largo",
+          "value": 7000
+        },
+        {
+          "id": "adagio",
+          "value": 5000
+        },
+        {
+          "id": "moderato",
+          "value": 4000
+        },
+        {
+          "id": "allegro",
+          "value": 3000
+        },
+        {
+          "id": "presto",
+          "value": 2000
+        }
+      ]
+    },
+    "noteLimit": {
+      "component": "jaslmus-form-dropdown",
+      "options": [
+        {
+          "id": "3",
+          "value": 3
+        },
+        {
+          "id": "5",
+          "value": 5
+        },
+        {
+          "id": "9",
+          "value": 9
+        },
+        {
+          "id": "15",
+          "value": 15
+        },
+        {
+          "id": "0",
+          "value": 0
+        }
+      ]
+    }
+  }
+}

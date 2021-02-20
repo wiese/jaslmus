@@ -25,50 +25,7 @@
       <button @click="showPreferences = false">
         {{ $i18n.t("preferences.close") }}
       </button>
-      <h2>{{ $i18n.t("preferences.title") }}</h2>
-      <fieldset>
-        <legend>{{ $i18n.t("preferences.noteReading.title") }}</legend>
-        <fieldset>
-          <legend>
-            {{ $i18n.t("preferences.noteReading.noteLimit.title") }}
-          </legend>
-          <label for="jaslmus-preferences-noteReading-speed">
-            {{ $i18n.t("preferences.noteReading.speed.title") }}
-          </label>
-          <select
-            id="jaslmus-preferences-noteReading-speed"
-            v-model="preferences.noteReading.speed"
-          >
-            <option
-              v-for="option in preferencesChoices.noteReading.speed"
-              v-bind:value="option.value"
-              v-bind:key="option.id"
-            >
-              {{
-                $i18n.t(`preferences.noteReading.speed.choices.${option.id}`)
-              }}
-            </option>
-          </select>
-          <label for="jaslmus-preferences-noteReading-noteLimit">
-            {{ $i18n.t("preferences.noteReading.noteLimit.description") }}
-          </label>
-          <select
-            id="jaslmus-preferences-noteReading-noteLimit"
-            v-model="preferences.noteReading.noteLimit"
-          >
-            <option disabled value="">{{
-              $i18n.t("preferences.noteReading.noteLimit.placeholder")
-            }}</option>
-            <option
-              v-for="option in preferencesChoices.noteReading.noteLimit"
-              v-bind:value="option"
-              v-bind:key="option"
-            >
-              {{ option }}
-            </option>
-          </select>
-        </fieldset>
-      </fieldset>
+      <Preferences :preferences="preferences" @updated="preferences = $event" />
     </div>
     <div v-else>
       <button @click="showMidiOptions = true">
@@ -100,10 +57,11 @@ import ShowPlay from "./components/ShowPlay.vue";
 import Challenge from "./components/Challenge.vue";
 import MidiCapability from "./components/MidiCapability.vue";
 import SubscriptionHandlingDeviceSelector from "./components/SubscriptionHandlingDeviceSelector.vue";
+import Preferences from "@/components/Preferences.vue";
 import WebMidi, { Input } from "webmidi"; // eslint-disable-line no-unused-vars
 import { storedPropMixin } from "./storedPropMixin";
-import midiOptionsDefaults from "./midiOptionsDefaults.json";
-import preferencesDefaults from "./preferencesDefaults.json";
+import midiOptionsDefaults from "./midiOptions.defaults.json";
+import preferencesDefaults from "./preferences.defaults.json";
 
 export default defineComponent({
   name: "App",
@@ -121,12 +79,6 @@ export default defineComponent({
       preferencesDefaults.defaults
     )
   ],
-  props: {
-    preferencesChoices: {
-      required: true,
-      type: Object
-    }
-  },
   data: () => ({
     showMidiOptions: false,
     showPreferences: false,
@@ -136,7 +88,8 @@ export default defineComponent({
     SubscriptionHandlingDeviceSelector,
     MidiCapability,
     Challenge,
-    ShowPlay
+    ShowPlay,
+    Preferences
   },
   computed: {
     hasKeyboard(): boolean {

@@ -870,6 +870,11 @@
     exec-sh "^0.3.2"
     minimist "^1.2.0"
 
+"@formvuelate/plugin-lookup@^1.2.3":
+  version "1.2.3"
+  resolved "https://registry.yarnpkg.com/@formvuelate/plugin-lookup/-/plugin-lookup-1.2.3.tgz#9a5b667892dde648a1cf30bb78916d99a91f65ab"
+  integrity sha512-+lSbuYlehSxtlSIrG40NuP95i68/v5UEwHg4K0Dbjts1BGOwsoNhZEWYkgipWZn58ThIFApSCgC10Bg04q1gQQ==
+
 "@hapi/address@2.x.x":
   version "2.1.4"
   resolved "https://registry.yarnpkg.com/@hapi/address/-/address-2.1.4.tgz#5d67ed43f3fd41a69d4b9ff7b56e7c0d1d0a81e5"
@@ -4913,6 +4918,11 @@ form-data@~2.3.2:
     combined-stream "^1.0.6"
     mime-types "^2.1.12"
 
+formvuelate@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/formvuelate/-/formvuelate-2.0.0.tgz#ab4f2557227c1b37f25b6b4e6b1f485eb8df431b"
+  integrity sha512-XH8HBUMRPmokdhy13AFBxqGTylV8211v1oNSARrn0dUGYpWUSRDcJhVVSYXMQAK9F4nQrLTTs5gV42tepC+Xsg==
+
 forwarded@~0.1.2:
   version "0.1.2"
   resolved "https://registry.yarnpkg.com/forwarded/-/forwarded-0.1.2.tgz#98c23dab1175657b8c0573e8ceccd91b0ff18c84"
@@ -8355,6 +8365,16 @@ pretty@2.0.0:
     condense-newlines "^0.2.1"
     extend-shallow "^2.0.1"
     js-beautify "^1.6.12"
+
+primeicons@^4.1.0:
+  version "4.1.0"
+  resolved "https://registry.yarnpkg.com/primeicons/-/primeicons-4.1.0.tgz#19eaef8ef5594b0006358ae64e738d03e167c9bb"
+  integrity sha512-uEv2pSPk1zQCfaB2VgnUfnUxxlGryYi+5rbdxmZBBt5v9S/pscIQYS5YDLxsQZ7D9jn5c76+Tx5wX/2J1nK6sA==
+
+primevue@^3.3.0-rc.1:
+  version "3.3.0-rc.1"
+  resolved "https://registry.yarnpkg.com/primevue/-/primevue-3.3.0-rc.1.tgz#4e7bec046c10b0f6e4512de1085b44739eb94e46"
+  integrity sha512-WsRHiQ/D6/BtSSJQQ03DESHofPSbGlXHyPd+tNlVwAJN/tGMrJXf4TVo+JzQ6gezO6EhfZvwJYPYh3QlZx5uCQ==
 
 process-nextick-args@~2.0.0:
   version "2.0.1"

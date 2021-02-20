@@ -4,13 +4,13 @@ function randomIntFromInterval(min: number, max: number): number {
   return Math.floor(Math.random() * (max - min + 1) + min);
 }
 
-function repetitionIsAvoidable(noteLimit: number | null): boolean {
+function repetitionIsAvoidable(noteLimit: number): boolean {
   return noteLimit !== 1;
 }
 
-export default function*(baseNote: number, noteLimit: number | null) {
+export default function*(baseNote: number, noteLimit: number) {
   let upper;
-  if (noteLimit === null) {
+  if (noteLimit === 0) {
     upper = MIDI_TOP_PITCH;
   } else {
     upper = baseNote + noteLimit - 1;

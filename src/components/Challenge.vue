@@ -64,11 +64,9 @@ export default defineComponent({
       validator: Number.isInteger
     },
     noteLimit: {
-      validator: value => {
-        return value === null || Number.isInteger(value);
-      },
-      type: Number as PropType<number | null>,
-      default: null
+      required: true,
+      type: Number,
+      validator: Number.isInteger
     },
     speed: {
       required: true,
