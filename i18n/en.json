@@ -48,6 +48,15 @@
           "allegro": "Allegro",
           "presto": "Presto"
         }
+      },
+      "accidentals": {
+        "label": "Accidentals",
+        "options": {
+          "no": "no sharps/no flats",
+          "sharps": "sharps",
+          "flats": "flats",
+          "random": "random"
+        }
       }
     }
   },

@@ -42,6 +42,7 @@
           :base-note="preferences.noteReading.baseNote"
           :note-limit="preferences.noteReading.noteLimit"
           :speed="preferences.noteReading.speed"
+          :accidentals="preferences.noteReading.accidentals"
         />
       </div>
       <div v-else>

@@ -1,10 +1,11 @@
 {
-  "version": 3,
+  "version": 4,
   "defaults": {
     "noteReading": {
       "baseNote": 60,
       "noteLimit": 3,
-      "speed": 4000
+      "speed": 4000,
+      "accidentals": "no"
     }
   }
 }

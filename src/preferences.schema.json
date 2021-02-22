@@ -49,6 +49,27 @@
           "value": 0
         }
       ]
+    },
+    "accidentals": {
+      "component": "jaslmus-form-dropdown",
+      "options": [
+        {
+          "id": "no",
+          "value": "no"
+        },
+        {
+          "id": "sharps",
+          "value": "sharps"
+        },
+        {
+          "id": "flats",
+          "value": "flats"
+        },
+        {
+          "id": "random",
+          "value": "random"
+        }
+      ]
     }
   }
 }

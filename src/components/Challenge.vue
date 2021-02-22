@@ -8,7 +8,7 @@
         :animationDuration="speed"
         :key="`heat_no_${heat}`"
       />
-      <span>{{ targetPitch }} ({{ targetNote }})</span>
+      <span>{{ challenge.pitch }} ({{ challenge.note }})</span>
       <br />
       <span>{{ heat }}/{{ heats }}</span>
       <br />
@@ -46,7 +46,10 @@ import { defineComponent, PropType } from "vue"; // eslint-disable-line no-unuse
 import AnimatedAbcNotation from "./AnimatedAbcNotation.vue";
 import Midi from "@tonaljs/midi";
 import TonalAbcNotation from "@tonaljs/abc-notation";
-import challengeGenerator from "@/challengeGenerator";
+import challengeGenerator, {
+  AccidentalsConfiguration,
+  Challenge // eslint-disable-line no-unused-vars
+} from "@/challengeGenerator";
 import { Input, InputEvents } from "webmidi"; // eslint-disable-line no-unused-vars
 import { VueI18n } from "vue-i18n"; // eslint-disable-line no-unused-vars
 
@@ -73,6 +76,10 @@ export default defineComponent({
       type: Number,
       validator: Number.isInteger
     },
+    accidentals: {
+      required: true,
+      type: String
+    },
     heats: {
       default: 10,
       type: Number
@@ -81,11 +88,11 @@ export default defineComponent({
   data: () => ({
     gaming: false,
     finished: false,
-    targetPitch: undefined as number | undefined,
+    challenge: {} as Challenge,
     mistakes: 0,
     successes: 0,
     timeout: undefined as number | undefined,
-    generator: undefined as Generator<number> | undefined,
+    generator: undefined as Generator<Challenge> | undefined,
     heat: 0
   }),
   components: {
@@ -103,14 +110,8 @@ export default defineComponent({
         key: `${START_ON_KEY} (${this.midiToAbc(START_ON_KEY)})`
       });
     },
-    targetNote(): string {
-      if (this.targetPitch === undefined) {
-        throw Error("Need pitch to generate note!");
-      }
-      return this.midiToAbc(this.targetPitch);
-    },
     abc(): string {
-      return `X:1\nK:C\n${this.targetNote}`;
+      return `X:1\nK:C\n${this.challenge.note}`;
     }
   },
   methods: {
@@ -121,7 +122,13 @@ export default defineComponent({
     start() {
       this.reset();
       this.gaming = true;
-      this.generator = challengeGenerator(this.baseNote, this.noteLimit);
+      this.generator = challengeGenerator(
+        this.baseNote,
+        this.noteLimit,
+        AccidentalsConfiguration[
+          this.accidentals as keyof typeof AccidentalsConfiguration
+        ]
+      );
       this.next();
     },
     finish() {
@@ -140,7 +147,7 @@ export default defineComponent({
         return;
       }
 
-      this.targetPitch = challenge.value;
+      this.challenge = challenge.value;
 
       this.timeout = window.setTimeout(this.noResponse, this.speed);
 
@@ -165,7 +172,7 @@ export default defineComponent({
     },
     evaluateResponse(midiEvent: InputEvents["noteon"]) {
       const pitch = midiEvent.data[1];
-      if (pitch === this.targetPitch) {
+      if (pitch === this.challenge.pitch) {
         window.clearTimeout(this.timeout);
         this.successes++;
         this.next();
