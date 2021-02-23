@@ -52,6 +52,7 @@ import challengeGenerator, {
 } from "@/challengeGenerator";
 import { Input, InputEvents } from "webmidi"; // eslint-disable-line no-unused-vars
 import { VueI18n } from "vue-i18n"; // eslint-disable-line no-unused-vars
+import GameInfo from "@/types/GameInfo"; // eslint-disable-line no-unused-vars
 
 export const START_ON_KEY = 60; // middle C
 
@@ -135,6 +136,12 @@ export default defineComponent({
       window.clearTimeout(this.timeout);
       this.gaming = false;
       this.finished = true;
+      this.$emit("finished", {
+        heats: this.heats,
+        heat: this.heat,
+        successes: this.successes,
+        mistakes: this.mistakes
+      } as GameInfo);
     },
     next() {
       if (!this.generator) {
@@ -185,6 +192,7 @@ export default defineComponent({
         Midi.midiToNoteName(pitch)
       );
     }
-  }
+  },
+  emits: ["finished"]
 });
 </script>

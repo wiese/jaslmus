@@ -35,6 +35,8 @@
         {{ $i18n.t("preferences.title") }}
       </button>
       <hr />
+      <ScoreBoard :games="games" />
+      <hr />
       <div v-if="hasKeyboard">
         <Challenge
           v-if="hasKeyboard"
@@ -43,6 +45,7 @@
           :note-limit="preferences.noteReading.noteLimit"
           :speed="preferences.noteReading.speed"
           :accidentals="preferences.noteReading.accidentals"
+          @finished="gameFinished"
         />
       </div>
       <div v-else>
@@ -63,6 +66,9 @@ import WebMidi, { Input } from "webmidi"; // eslint-disable-line no-unused-vars
 import { storedPropMixin } from "./storedPropMixin";
 import midiOptionsDefaults from "./midiOptions.defaults.json";
 import preferencesDefaults from "./preferences.defaults.json";
+import ScoreBoard from "@/components/ScoreBoard.vue";
+import GameInfo from "@/types/GameInfo"; // eslint-disable-line no-unused-vars
+import GameResult from "@/types/GameResult"; // eslint-disable-line no-unused-vars
 
 export default defineComponent({
   name: "App",
@@ -78,7 +84,8 @@ export default defineComponent({
       "preferences",
       preferencesDefaults.version.toString(),
       preferencesDefaults.defaults
-    )
+    ),
+    storedPropMixin("games", "1", [])
   ],
   data: () => ({
     showMidiOptions: false,
@@ -90,7 +97,8 @@ export default defineComponent({
     MidiCapability,
     Challenge,
     ShowPlay,
-    Preferences
+    Preferences,
+    ScoreBoard
   },
   computed: {
     hasKeyboard(): boolean {
@@ -107,6 +115,14 @@ export default defineComponent({
         this.midiInput = WebMidi.getInputById(this.midiOptions.input) || null;
       }
       this.showMidiOptions = !this.hasKeyboard;
+    },
+    gameFinished(gameInfo: GameInfo) {
+      this.games.push({
+        name: "noteReading",
+        time: new Date().toISOString(),
+        preferences: this.preferences.noteReading,
+        gameInfo
+      } as GameResult);
     }
   }
 });

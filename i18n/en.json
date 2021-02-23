@@ -77,5 +77,10 @@
       "startViaKeyHint": "You can also start the game via key {key} on your MIDI device.",
       "finished": "Finished!"
     }
+  },
+  "scoreBoard": {
+    "games": "Games: ",
+    "virtuosicScore": "Virtuosic score: ",
+    "noVirtuosicScore": "We shall see…"
   }
 }
