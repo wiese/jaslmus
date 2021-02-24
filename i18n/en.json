@@ -5,7 +5,8 @@
   },
   "midi": {
     "loading": "Loading MIDI capability…",
-    "error": "Problem loading MIDI capability. Please check browser permissions."
+    "error": "Problem loading MIDI capability. Please check browser {0} and permissions.",
+    "compatibilityAnchor": "compatibility"
   },
   "midiOptions": {
     "title": "MIDI options",

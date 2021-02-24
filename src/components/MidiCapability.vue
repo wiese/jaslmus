@@ -4,7 +4,11 @@
   </div>
   <template v-else>
     <div v-if="error">
-      {{ $i18n.t("midi.error") }}
+      <i18n-t keypath="midi.error" :tag="false" for="midi.compatibilityAnchor">
+        <a href="https://caniuse.com/midi" target="_blank">
+          {{ $t("midi.compatibilityAnchor") }}
+        </a>
+      </i18n-t>
     </div>
     <slot v-else />
   </template>
