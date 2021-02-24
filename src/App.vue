@@ -56,14 +56,14 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ComponentPublicInstance } from "vue"; // eslint-disable-line no-unused-vars
+import { defineComponent } from "vue";
 import ShowPlay from "./components/ShowPlay.vue";
 import Challenge from "./components/Challenge.vue";
 import MidiCapability from "./components/MidiCapability.vue";
 import SubscriptionHandlingDeviceSelector from "./components/SubscriptionHandlingDeviceSelector.vue";
 import Preferences from "@/components/Preferences.vue";
 import WebMidi, { Input } from "webmidi"; // eslint-disable-line no-unused-vars
-import { storedPropMixin } from "./storedPropMixin";
+import storedData from "@/storedData";
 import midiOptionsDefaults from "./midiOptions.defaults.json";
 import preferencesDefaults from "./preferences.defaults.json";
 import ScoreBoard from "@/components/ScoreBoard.vue";
@@ -72,21 +72,6 @@ import GameResult from "@/types/GameResult"; // eslint-disable-line no-unused-va
 
 export default defineComponent({
   name: "App",
-  mixins: [
-    storedPropMixin(
-      "midiOptions",
-      midiOptionsDefaults.version.toString(),
-      midiOptionsDefaults.defaults
-    ) as ComponentPublicInstance<
-      Readonly<{ midiOptions: Record<string, any> }>
-    >, // TODO not sure how to do this properly. using composition API probably
-    storedPropMixin(
-      "preferences",
-      preferencesDefaults.version.toString(),
-      preferencesDefaults.defaults
-    ),
-    storedPropMixin("games", "1", [])
-  ],
   data: () => ({
     showMidiOptions: false,
     showPreferences: false,
@@ -104,6 +89,21 @@ export default defineComponent({
     hasKeyboard(): boolean {
       return !!this.midiInput;
     }
+  },
+  setup() {
+    return {
+      midiOptions: storedData(
+        "midiOptions",
+        midiOptionsDefaults.version.toString(),
+        midiOptionsDefaults.defaults
+      ),
+      preferences: storedData(
+        "preferences",
+        preferencesDefaults.version.toString(),
+        preferencesDefaults.defaults
+      ),
+      games: storedData("games", "1", [] as GameResult[])
+    };
   },
   methods: {
     deviceChanged(current: Input) {
