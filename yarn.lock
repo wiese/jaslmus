@@ -870,11 +870,6 @@
     exec-sh "^0.3.2"
     minimist "^1.2.0"
 
-"@formvuelate/plugin-lookup@^1.2.3":
-  version "1.2.3"
-  resolved "https://registry.yarnpkg.com/@formvuelate/plugin-lookup/-/plugin-lookup-1.2.3.tgz#9a5b667892dde648a1cf30bb78916d99a91f65ab"
-  integrity sha512-+lSbuYlehSxtlSIrG40NuP95i68/v5UEwHg4K0Dbjts1BGOwsoNhZEWYkgipWZn58ThIFApSCgC10Bg04q1gQQ==
-
 "@hapi/address@2.x.x":
   version "2.1.4"
   resolved "https://registry.yarnpkg.com/@hapi/address/-/address-2.1.4.tgz#5d67ed43f3fd41a69d4b9ff7b56e7c0d1d0a81e5"

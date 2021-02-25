@@ -10,7 +10,6 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
-    "@formvuelate/plugin-lookup": "^1.2.3",
     "@tonaljs/abc-notation": "^4.5.1",
     "@tonaljs/midi": "^4.5.1",
     "abcjs": "^5.12.0",
