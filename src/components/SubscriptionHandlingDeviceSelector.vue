@@ -5,7 +5,7 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import MidiDeviceSelector from "./MidiDeviceSelector.vue";
-import { Input } from "webmidi"; // eslint-disable-line no-unused-vars
+import { Input } from "webmidi";
 
 export default defineComponent({
   name: "SubscriptionHandlingDeviceSelector",

@@ -62,13 +62,13 @@ import Challenge from "./components/Challenge.vue";
 import MidiCapability from "./components/MidiCapability.vue";
 import SubscriptionHandlingDeviceSelector from "./components/SubscriptionHandlingDeviceSelector.vue";
 import Preferences from "@/components/Preferences.vue";
-import WebMidi, { Input } from "webmidi"; // eslint-disable-line no-unused-vars
+import WebMidi, { Input } from "webmidi";
 import storedData from "@/storedData";
 import midiOptionsDefaults from "./midiOptions.defaults.json";
 import preferencesDefaults from "./preferences.defaults.json";
 import ScoreBoard from "@/components/ScoreBoard.vue";
-import GameInfo from "@/types/GameInfo"; // eslint-disable-line no-unused-vars
-import GameResult from "@/types/GameResult"; // eslint-disable-line no-unused-vars
+import GameInfo from "@/types/GameInfo";
+import GameResult from "@/types/GameResult";
 
 export default defineComponent({
   name: "App",

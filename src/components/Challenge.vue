@@ -42,17 +42,17 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType } from "vue"; // eslint-disable-line no-unused-vars
+import { defineComponent, PropType } from "vue";
 import AnimatedAbcNotation from "./AnimatedAbcNotation.vue";
 import Midi from "@tonaljs/midi";
 import TonalAbcNotation from "@tonaljs/abc-notation";
 import challengeGenerator, {
   AccidentalsConfiguration,
-  Challenge // eslint-disable-line no-unused-vars
+  Challenge
 } from "@/challengeGenerator";
-import { Input, InputEvents } from "webmidi"; // eslint-disable-line no-unused-vars
-import { VueI18n } from "vue-i18n"; // eslint-disable-line no-unused-vars
-import GameInfo from "@/types/GameInfo"; // eslint-disable-line no-unused-vars
+import { Input, InputEvents } from "webmidi";
+import { VueI18n } from "vue-i18n";
+import GameInfo from "@/types/GameInfo";
 
 export const START_ON_KEY = 60; // middle C
 

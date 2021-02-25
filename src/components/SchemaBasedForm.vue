@@ -7,9 +7,9 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType } from "vue"; // eslint-disable-line no-unused-vars
+import { defineComponent, PropType } from "vue";
 import { SchemaForm } from "formvuelate";
-import { VueI18n } from "vue-i18n"; // eslint-disable-line no-unused-vars
+import { VueI18n } from "vue-i18n";
 
 interface OurSchema extends Record<string, OurSchemaProp> {}
 

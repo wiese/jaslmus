@@ -13,8 +13,8 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType } from "vue"; // eslint-disable-line no-unused-vars
-import GameResult from "@/types/GameResult"; // eslint-disable-line no-unused-vars
+import { defineComponent, PropType } from "vue";
+import GameResult from "@/types/GameResult";
 
 export default defineComponent({
   props: {

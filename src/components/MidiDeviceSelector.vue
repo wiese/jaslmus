@@ -20,7 +20,7 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import WebMidi, { Input } from "webmidi"; // eslint-disable-line no-unused-vars
+import WebMidi, { Input } from "webmidi";
 
 export default defineComponent({
   name: "MidiDeviceSelector",

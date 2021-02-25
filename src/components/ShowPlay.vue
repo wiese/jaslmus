@@ -4,11 +4,11 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType } from "vue"; // eslint-disable-line no-unused-vars
+import { defineComponent, PropType } from "vue";
 import AbcNotation from "./AbcNotation.vue";
 import Midi from "@tonaljs/midi";
 import TonalAbcNotation from "@tonaljs/abc-notation";
-import { Input, InputEvents } from "webmidi"; // eslint-disable-line no-unused-vars
+import { Input, InputEvents } from "webmidi";
 
 export default defineComponent({
   name: "ShowPlay",
