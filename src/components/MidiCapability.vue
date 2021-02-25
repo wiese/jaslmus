@@ -33,7 +33,7 @@ export default defineComponent({
         this.error = !!err;
         this.loading = false;
         this.$emit("midiReady");
-      });
+      }, false);
     }
   },
   emits: ["midiReady"]
