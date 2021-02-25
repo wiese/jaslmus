@@ -4919,9 +4919,9 @@ form-data@~2.3.2:
     mime-types "^2.1.12"
 
 formvuelate@^2.0.0:
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/formvuelate/-/formvuelate-2.0.0.tgz#ab4f2557227c1b37f25b6b4e6b1f485eb8df431b"
-  integrity sha512-XH8HBUMRPmokdhy13AFBxqGTylV8211v1oNSARrn0dUGYpWUSRDcJhVVSYXMQAK9F4nQrLTTs5gV42tepC+Xsg==
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/formvuelate/-/formvuelate-2.2.0.tgz#d1c3d40d791762f6466417b37a30f43a49458757"
+  integrity sha512-6m8UCcw4PS7oYzoTpBMQH4farDScAKfZduYdDrhJgwmXZ3pNT2YlkQrYawk9IbUPy1gvN3cYgG2RrRK8Ko/ihQ==
 
 forwarded@~0.1.2:
   version "0.1.2"

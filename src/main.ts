@@ -8,8 +8,6 @@ import "primevue/resources/themes/saga-blue/theme.css";
 import "primevue/resources/primevue.min.css";
 import "primeicons/primeicons.css";
 
-import FormDropdown from "./components/form/FormDropdown.vue";
-
 const i18n = createI18n({
   locale: "en",
   messages: {
@@ -20,5 +18,4 @@ const i18n = createI18n({
 createApp(App)
   .use(i18n)
   .use(PrimeVue)
-  .component("jaslmus-form-dropdown", FormDropdown)
   .mount("#app");

@@ -7,9 +7,12 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType } from "vue";
-import { SchemaForm } from "formvuelate";
+import { defineComponent, PropType, markRaw } from "vue";
+import { SchemaFormFactory } from "formvuelate";
 import { VueI18n } from "vue-i18n";
+import FormDropdown from "@/components/form/FormDropdown.vue";
+
+markRaw(FormDropdown);
 
 interface OurSchema extends Record<string, OurSchemaProp> {}
 
@@ -63,7 +66,7 @@ export default defineComponent({
     }
   },
   components: {
-    SchemaForm
+    SchemaForm: SchemaFormFactory([], { FormDropdown })
   },
   emits: ["updated"],
   methods: {

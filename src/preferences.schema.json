@@ -1,7 +1,7 @@
 {
   "noteReading": {
     "speed": {
-      "component": "jaslmus-form-dropdown",
+      "component": "FormDropdown",
       "options": [
         {
           "id": "largo",
@@ -26,7 +26,7 @@
       ]
     },
     "noteLimit": {
-      "component": "jaslmus-form-dropdown",
+      "component": "FormDropdown",
       "options": [
         {
           "id": "3",
@@ -51,7 +51,7 @@
       ]
     },
     "accidentals": {
-      "component": "jaslmus-form-dropdown",
+      "component": "FormDropdown",
       "options": [
         {
           "id": "no",
