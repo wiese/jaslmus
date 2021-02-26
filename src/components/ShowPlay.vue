@@ -8,14 +8,14 @@ import { defineComponent, PropType } from "vue";
 import AbcNotation from "./AbcNotation.vue";
 import Midi from "@tonaljs/midi";
 import TonalAbcNotation from "@tonaljs/abc-notation";
-import { Input, InputEvents } from "webmidi";
+import Keyboard from "@/types/Keyboard";
 
 export default defineComponent({
   name: "ShowPlay",
   props: {
     keyboard: {
       required: true,
-      type: Object as PropType<Input>
+      type: Object as PropType<Keyboard>
     }
   },
   data: () => ({
@@ -25,14 +25,13 @@ export default defineComponent({
     AbcNotation
   },
   unmounted() {
-    this.keyboard.removeListener("noteon", "all", this.midiSubscription);
+    this.keyboard.removeListener(this.midiSubscription);
   },
   mounted() {
-    this.keyboard.addListener("noteon", "all", this.midiSubscription);
+    this.keyboard.addListener(this.midiSubscription);
   },
   methods: {
-    midiSubscription(midiEvent: InputEvents["noteon"]) {
-      const pitch = midiEvent.data[1];
+    midiSubscription(pitch: number) {
       const abc = TonalAbcNotation.scientificToAbcNotation(
         Midi.midiToNoteName(pitch)
       );

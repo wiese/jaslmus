@@ -50,9 +50,9 @@ import challengeGenerator, {
   AccidentalsConfiguration,
   Challenge
 } from "@/challengeGenerator";
-import { Input, InputEvents } from "webmidi";
 import { VueI18n } from "vue-i18n";
 import GameInfo from "@/types/GameInfo";
+import Keyboard from "@/types/Keyboard";
 
 export const START_ON_KEY = 60; // middle C
 
@@ -60,7 +60,7 @@ export default defineComponent({
   props: {
     keyboard: {
       required: true,
-      type: Object as PropType<Input>
+      type: Object as PropType<Keyboard>
     },
     baseNote: {
       required: true,
@@ -100,10 +100,10 @@ export default defineComponent({
     AnimatedAbcNotation
   },
   unmounted() {
-    this.keyboard.removeListener("noteon", "all", this.evaluateInput);
+    this.keyboard.removeListener(this.evaluateInput);
   },
   mounted() {
-    this.keyboard.addListener("noteon", "all", this.evaluateInput);
+    this.keyboard.addListener(this.evaluateInput);
   },
   computed: {
     startViaKeyHint(): string {
@@ -160,11 +160,11 @@ export default defineComponent({
 
       this.heat++;
     },
-    evaluateInput(midiEvent: InputEvents["noteon"]) {
+    evaluateInput(midiPitch: number) {
       if (this.gaming) {
-        this.evaluateResponse(midiEvent);
+        this.evaluateResponse(midiPitch);
       } else {
-        if (midiEvent.data[1] === START_ON_KEY) {
+        if (midiPitch === START_ON_KEY) {
           if (this.finished) {
             this.reset();
           } else {
@@ -177,9 +177,8 @@ export default defineComponent({
       this.mistakes++;
       this.next();
     },
-    evaluateResponse(midiEvent: InputEvents["noteon"]) {
-      const pitch = midiEvent.data[1];
-      if (pitch === this.challenge.pitch) {
+    evaluateResponse(midiPitch: number) {
+      if (midiPitch === this.challenge.pitch) {
         window.clearTimeout(this.timeout);
         this.successes++;
         this.next();

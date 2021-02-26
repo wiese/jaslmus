@@ -69,13 +69,15 @@ import preferencesDefaults from "./preferences.defaults.json";
 import ScoreBoard from "@/components/ScoreBoard.vue";
 import GameInfo from "@/types/GameInfo";
 import GameResult from "@/types/GameResult";
+import WebmidiInputKeyboardAdapter from "@/WebmidiInputKeyboardAdapter";
+import Keyboard from "@/types/Keyboard";
 
 export default defineComponent({
   name: "App",
   data: () => ({
     showMidiOptions: false,
     showPreferences: false,
-    midiInput: null as Input | null
+    midiInput: null as Keyboard | null
   }),
   components: {
     SubscriptionHandlingDeviceSelector,
@@ -108,11 +110,12 @@ export default defineComponent({
   methods: {
     deviceChanged(current: Input) {
       this.midiOptions.input = current.id;
-      this.midiInput = current;
+      this.midiInput = this.wrapMidiInput(current);
     },
     midiReady() {
       if (this.midiOptions.input) {
-        this.midiInput = WebMidi.getInputById(this.midiOptions.input) || null;
+        const webmidiInput = WebMidi.getInputById(this.midiOptions.input);
+        this.midiInput = webmidiInput ? this.wrapMidiInput(webmidiInput) : null;
       }
       this.showMidiOptions = !this.hasKeyboard;
     },
@@ -123,6 +126,9 @@ export default defineComponent({
         preferences: this.preferences.noteReading,
         gameInfo
       } as GameResult);
+    },
+    wrapMidiInput(input: Input) {
+      return new WebmidiInputKeyboardAdapter(input);
     }
   }
 });
