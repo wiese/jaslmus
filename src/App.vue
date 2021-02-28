@@ -14,7 +14,7 @@
           :deviceId="midiOptions.input"
           @deviceChanged="deviceChanged"
         />
-        <div v-if="hasKeyboard">
+        <div v-if="midiInput">
           <h3>{{ $i18n.t("midiOptions.input.preview.title") }}</h3>
           <p>{{ $i18n.t("midiOptions.input.preview.description") }}</p>
           <ShowPlay :keyboard="midiInput" />
@@ -37,18 +37,20 @@
       <hr />
       <ScoreBoard :games="games" />
       <hr />
-      <div v-if="hasKeyboard">
-        <Challenge
-          v-if="hasKeyboard"
-          :keyboard="midiInput"
-          :base-note="preferences.noteReading.baseNote"
-          :note-limit="preferences.noteReading.noteLimit"
-          :speed="preferences.noteReading.speed"
-          :accidentals="preferences.noteReading.accidentals"
-          @finished="gameFinished"
-        />
-      </div>
-      <div v-else>
+      <Challenge
+        :keyboards="keyboards"
+        :base-note="preferences.noteReading.baseNote"
+        :note-limit="preferences.noteReading.noteLimit"
+        :speed="preferences.noteReading.speed"
+        :accidentals="preferences.noteReading.accidentals"
+        @finished="gameFinished"
+      />
+      <VirtualKeyboard
+        :start-octave="2"
+        :end-octave="6"
+        @noteon="virtualKeyboard.broadcast($event)"
+      />
+      <div v-if="!midiInput">
         {{ $i18n.t("error.noMidiDevice") }}
       </div>
     </div>
@@ -71,13 +73,16 @@ import GameInfo from "@/types/GameInfo";
 import GameResult from "@/types/GameResult";
 import WebmidiInputKeyboardAdapter from "@/WebmidiInputKeyboardAdapter";
 import Keyboard from "@/types/Keyboard";
+import VirtualKeyboard from "@/components/VirtualKeyboard.vue";
+import VirtualKeyboardEventObserver from "@/VirtualKeyboardEventObserver";
 
 export default defineComponent({
   name: "App",
   data: () => ({
     showMidiOptions: false,
     showPreferences: false,
-    midiInput: null as Keyboard | null
+    midiInput: null as Keyboard | null,
+    virtualKeyboard: new VirtualKeyboardEventObserver()
   }),
   components: {
     SubscriptionHandlingDeviceSelector,
@@ -85,11 +90,16 @@ export default defineComponent({
     Challenge,
     ShowPlay,
     Preferences,
-    ScoreBoard
+    ScoreBoard,
+    VirtualKeyboard
   },
   computed: {
-    hasKeyboard(): boolean {
-      return !!this.midiInput;
+    keyboards(): Keyboard[] {
+      const keyboards: Keyboard[] = [this.virtualKeyboard];
+      if (this.midiInput) {
+        keyboards.push(this.midiInput);
+      }
+      return keyboards;
     }
   },
   setup() {
@@ -117,7 +127,7 @@ export default defineComponent({
         const webmidiInput = WebMidi.getInputById(this.midiOptions.input);
         this.midiInput = webmidiInput ? this.wrapMidiInput(webmidiInput) : null;
       }
-      this.showMidiOptions = !this.hasKeyboard;
+      this.showMidiOptions = !this.midiInput;
     },
     gameFinished(gameInfo: GameInfo) {
       this.games.push({

@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="challenge">
     <h1>{{ $i18n.t("game.noteReading.title") }}</h1>
     <div v-if="gaming">
       <p>{{ $i18n.t("game.noteReading.description") }}</p>
@@ -58,9 +58,9 @@ export const START_ON_KEY = 60; // middle C
 
 export default defineComponent({
   props: {
-    keyboard: {
+    keyboards: {
       required: true,
-      type: Object as PropType<Keyboard>
+      type: Object as PropType<Keyboard[]>
     },
     baseNote: {
       required: true,
@@ -100,10 +100,14 @@ export default defineComponent({
     AnimatedAbcNotation
   },
   unmounted() {
-    this.keyboard.removeListener(this.evaluateInput);
+    this.keyboards.forEach(keyboard =>
+      keyboard.removeListener(this.evaluateInput)
+    );
   },
   mounted() {
-    this.keyboard.addListener(this.evaluateInput);
+    this.keyboards.forEach(keyboard =>
+      keyboard.addListener(this.evaluateInput)
+    );
   },
   computed: {
     startViaKeyHint(): string {
@@ -195,3 +199,9 @@ export default defineComponent({
   emits: ["finished"]
 });
 </script>
+
+<style>
+.challenge {
+  height: 300px;
+}
+</style>

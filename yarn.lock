@@ -1125,6 +1125,11 @@
   resolved "https://registry.yarnpkg.com/@soda/get-current-script/-/get-current-script-1.0.2.tgz#a53515db25d8038374381b73af20bb4f2e508d87"
   integrity sha512-T7VNNlYVM1SgQ+VsMYhnDkcGmWhQdL0bDyGm5TlQ3GBXnJscEClUUOKduWTmm2zCnvNLC1hc3JpuXjs/nFOc5w==
 
+"@svgdotjs/svg.js@^3.0.16":
+  version "3.0.16"
+  resolved "https://registry.yarnpkg.com/@svgdotjs/svg.js/-/svg.js-3.0.16.tgz#7044754e45daf62c8e2b115c45ca33ca5b967aff"
+  integrity sha512-yZ4jfP/SeLHEnCi9PIrzienKCrA4vW9+jm5uUV3N5DG2e9zgXLY5FgywK2u8/gMFIeKO0HuqTLFFfWJj+MfMLA==
+
 "@tonaljs/abc-notation@^4.5.1":
   version "4.5.1"
   resolved "https://registry.npmjs.org/@tonaljs/abc-notation/-/abc-notation-4.5.1.tgz#7efc562e43badd8e682131c8d9bbeb7ad4d047fb"
@@ -7874,6 +7879,13 @@ performance-now@^2.1.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/performance-now/-/performance-now-2.1.0.tgz#6309f4e0e5fa913ec1c69307ae364b4b377c9e7b"
   integrity sha1-Ywn04OX6kT7BxpMHrjZLSzd8nns=
+
+piano-chart@^1.5.0:
+  version "1.5.0"
+  resolved "https://registry.yarnpkg.com/piano-chart/-/piano-chart-1.5.0.tgz#e16f9db68ccd0b031eab5077b345c2f8fa2ee9dd"
+  integrity sha512-w/z/8spXPzH50v/FcmG5eMWp6EZ/5mBLinM2mgRxHzUhPkBcKEJHnmOZdJpT8sBQJ4XfVdMo4qXdSUJV7tIvuw==
+  dependencies:
+    "@svgdotjs/svg.js" "^3.0.16"
 
 picomatch@^2.0.4, picomatch@^2.0.5, picomatch@^2.2.1:
   version "2.2.2"

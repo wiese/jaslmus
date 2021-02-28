@@ -75,7 +75,7 @@
       "start": "Start",
       "stop": "Stop",
       "reset": "Reset",
-      "startViaKeyHint": "You can also start the game via key {key} on your MIDI device.",
+      "startViaKeyHint": "You can also start the game by playing key {key}.",
       "finished": "Finished!"
     }
   },
