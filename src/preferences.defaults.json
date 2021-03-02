@@ -1,6 +1,9 @@
 {
-  "version": 4,
+  "version": 5,
   "defaults": {
+    "keyboardSettings": {
+      "keys": 49
+    },
     "noteReading": {
       "baseNote": 60,
       "noteLimit": 3,

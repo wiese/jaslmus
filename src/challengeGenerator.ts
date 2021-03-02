@@ -1,8 +1,8 @@
 import TonalAbcNotation from "@tonaljs/abc-notation";
 import Midi from "@tonaljs/midi";
+import { KEYS_IN_OCTAVE } from "@/Foundations";
 
 const MIDI_TOP_PITCH = 127;
-const KEYS_IN_OCTAVE = 12;
 
 // get this from a 3rd party. that'd be great
 const accidentalKeys = [1, 3, 6, 8, 10];

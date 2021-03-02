@@ -46,8 +46,7 @@
         @finished="gameFinished"
       />
       <VirtualKeyboard
-        :start-octave="2"
-        :end-octave="6"
+        :settings="preferences.keyboardSettings"
         @noteon="virtualKeyboard.broadcast($event)"
       />
       <div v-if="!midiInput">

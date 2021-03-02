@@ -3,17 +3,47 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
-import { Instrument, INoteValue as PianoChartNote } from "piano-chart";
+import { defineComponent, PropType } from "vue";
+import { Instrument, INoteValue as PianoChartNote, Note } from "piano-chart";
 import { note } from "@tonaljs/core";
+import { KEYS_IN_OCTAVE } from "@/Foundations";
+
+interface Settings {
+  keys: number;
+}
 
 export default defineComponent({
   props: {
-    startOctave: Number,
-    endOctave: Number,
+    settings: {
+      required: true,
+      type: Object as PropType<Settings>
+    },
     highlightedNotes: {
       required: false,
       default: []
+    }
+  },
+  computed: {
+    octaves(): number {
+      return Math.ceil(this.settings.keys / KEYS_IN_OCTAVE);
+    },
+    startNote(): string {
+      const rest = this.settings.keys % KEYS_IN_OCTAVE;
+      if (this.octaves > 7 && rest > 0) {
+        return "A";
+      }
+      return "C";
+    },
+    startOctave(): number {
+      return 4 - Math.floor(this.octaves / 2);
+    },
+    endOctave(): number {
+      return 4 + Math.floor(this.octaves / 2);
+    }
+  },
+  watch: {
+    settings() {
+      this.render();
     }
   },
   data: () => ({
@@ -23,17 +53,7 @@ export default defineComponent({
     this.piano.destroy();
   },
   mounted() {
-    this.piano = new Instrument(this.$refs.keyboard as HTMLElement, {
-      startOctave: this.startOctave,
-      endOctave: this.endOctave,
-      highlightedNotes: this.highlightedNotes
-    });
-    this.piano.create();
-    this.piano.addKeyMouseUpListener(this.piano.keyUp);
-    this.piano.addKeyMouseDownListener(note => {
-      this.piano.keyDown(note);
-      this.keyPlay(note);
-    });
+    this.render();
   },
   methods: {
     keyPlay(pianoChartNote: PianoChartNote) {
@@ -42,6 +62,20 @@ export default defineComponent({
       if (midiPitch) {
         this.$emit("noteon", midiPitch);
       }
+    },
+    render() {
+      this.piano = new Instrument(this.$refs.keyboard as HTMLElement, {
+        startOctave: this.startOctave,
+        startNote: this.startNote as Note,
+        endOctave: this.endOctave,
+        highlightedNotes: this.highlightedNotes
+      });
+      this.piano.create();
+      this.piano.addKeyMouseUpListener(this.piano.keyUp);
+      this.piano.addKeyMouseDownListener(note => {
+        this.piano.keyDown(note);
+        this.keyPlay(note);
+      });
     }
   },
   emits: ["noteon"]

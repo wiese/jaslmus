@@ -27,6 +27,20 @@
   "preferences": {
     "title": "Preferences",
     "close": "Close",
+    "keyboardSettings": {
+      "title": "Keyboard settings",
+      "keys": {
+        "label": "Number of keyboard keys",
+        "options": {
+          "25": "25 keys",
+          "37": "37 keys",
+          "49": "49 keys",
+          "61": "61 keys",
+          "73": "73 keys",
+          "88": "88 keys"
+        }
+      }
+    },
     "noteReading": {
       "title": "Note reading",
       "noteLimit": {

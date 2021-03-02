@@ -1,23 +1,32 @@
 <template>
   <div>
     <h2>{{ $i18n.t("preferences.title") }}</h2>
+    <Fieldset :legend="$i18n.t('preferences.keyboardSettings.title')">
+      <SchemaBasedForm
+        :schema="schema.keyboardSettings"
+        :form-data="preferences.keyboardSettings"
+        i18n-prefix="preferences.keyboardSettings"
+        @updated="preferencesUpdated('keyboardSettings', $event)"
+      />
+    </Fieldset>
     <Fieldset :legend="$i18n.t('preferences.noteReading.title')">
       <SchemaBasedForm
         :schema="schema.noteReading"
         :form-data="preferences.noteReading"
         i18n-prefix="preferences.noteReading"
-        @updated="updated"
+        @updated="preferencesUpdated('noteReading', $event)"
       />
     </Fieldset>
   </div>
 </template>
 
-<script>
+<script lang="ts">
+import { defineComponent } from "vue";
 import Fieldset from "primevue/fieldset";
-import SchemaBasedForm from "@/components/SchemaBasedForm";
+import SchemaBasedForm from "@/components/SchemaBasedForm.vue";
 import preferencesSchema from "@/preferences.schema.json";
 
-export default {
+export default defineComponent({
   components: {
     SchemaBasedForm,
     Fieldset
@@ -32,12 +41,12 @@ export default {
   },
   emits: ["updated"],
   methods: {
-    updated(noteReadingPreferences) {
+    preferencesUpdated(key: string, preferences: Record<string, any>): void {
       this.$emit("updated", {
         ...this.preferences,
-        noteReading: noteReadingPreferences
+        [key]: preferences
       });
     }
   }
-};
+});
 </script>
