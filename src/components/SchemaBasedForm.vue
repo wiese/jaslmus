@@ -19,6 +19,7 @@ interface OurSchema extends Record<string, OurSchemaProp> {}
 interface OurSchemaProp {
   component: string;
   options?: OurSchemaOption[];
+  [key: string]: any;
 }
 
 interface OurSchemaOption {
@@ -37,8 +38,9 @@ interface FormvuelateSchemaOption {
 interface FormvuelateSchemaProp {
   component: string;
   label: string;
-  placeholder: string;
+  placeholder?: string;
   options?: FormvuelateSchemaOption[];
+  [key: string]: any;
 }
 
 export default defineComponent({
@@ -99,11 +101,11 @@ export default defineComponent({
         const placeholderMessage = `${i18nPrefix}.${prop}.placeholder`;
 
         fields[prop] = {
-          component: settings.component,
+          ...settings,
           label: $i18n.t(`${i18nPrefix}.${prop}.label`),
           placeholder: $i18n.te(placeholderMessage)
             ? $i18n.t(placeholderMessage)
-            : "",
+            : undefined,
           options: options.length ? options : undefined
         };
       });

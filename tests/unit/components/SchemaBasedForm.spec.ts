@@ -40,4 +40,46 @@ describe("SchemaBasedForm", () => {
       SchemaBasedForm!.methods!.augmentSchema(schema, $i18n, i18nPrefix)
     ).toEqual(augmentedSchema);
   });
+
+  it("forwards unknown property options from custom to formvuelate schema", () => {
+    const someProperty = "bar",
+      schema = {
+        some: {
+          component: "foo",
+          someProperty
+        }
+      },
+      $i18n = {
+        t: jest.fn().mockImplementation(m => m),
+        te: jest.fn().mockReturnValue(true)
+      },
+      i18nPrefix = "foo.bar";
+
+    expect(
+      SchemaBasedForm!.methods!.augmentSchema(schema, $i18n, i18nPrefix).some
+        .someProperty
+    ).toBe(someProperty);
+  });
+
+  it("omits placeholder and option from formvuelate schema if they are not applicable", () => {
+    const schema = {
+        some: {
+          component: "foo"
+        }
+      },
+      $i18n = {
+        t: jest.fn().mockImplementation(m => m),
+        te: jest.fn().mockReturnValue(false)
+      },
+      i18nPrefix = "foo.bar";
+
+    expect(
+      SchemaBasedForm!.methods!.augmentSchema(schema, $i18n, i18nPrefix).some
+        .options
+    ).toBeUndefined();
+    expect(
+      SchemaBasedForm!.methods!.augmentSchema(schema, $i18n, i18nPrefix).some
+        .placeholder
+    ).toBeUndefined();
+  });
 });
