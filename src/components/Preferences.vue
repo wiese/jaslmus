@@ -4,7 +4,7 @@
     <Fieldset :legend="$i18n.t('preferences.keyboardSettings.title')">
       <SchemaBasedForm
         :schema="schema.keyboardSettings"
-        :form-data="preferences.keyboardSettings"
+        :user-data="preferences.keyboardSettings"
         i18n-prefix="preferences.keyboardSettings"
         @updated="preferencesUpdated('keyboardSettings', $event)"
       />
@@ -12,7 +12,7 @@
     <Fieldset :legend="$i18n.t('preferences.noteReading.title')">
       <SchemaBasedForm
         :schema="schema.noteReading"
-        :form-data="preferences.noteReading"
+        :user-data="preferences.noteReading"
         i18n-prefix="preferences.noteReading"
         @updated="preferencesUpdated('noteReading', $event)"
       />

@@ -1,14 +1,13 @@
 <template>
   <SchemaForm
     :schema="augmentedSchema"
-    :modelValue="formData"
     @update:modelValue="$emit('updated', $event)"
   />
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType, markRaw } from "vue";
-import { SchemaFormFactory } from "formvuelate";
+import { defineComponent, PropType, markRaw, toRefs } from "vue";
+import { SchemaFormFactory, useSchemaForm } from "formvuelate";
 import { VueI18n } from "vue-i18n";
 import FormDropdown from "@/components/form/FormDropdown.vue";
 
@@ -49,7 +48,7 @@ export default defineComponent({
       required: true,
       type: Object as PropType<OurSchema>
     },
-    formData: {
+    userData: {
       required: true,
       type: Object
     },
@@ -112,6 +111,10 @@ export default defineComponent({
 
       return fields;
     }
+  },
+  setup(props) {
+    const { userData } = toRefs(props);
+    useSchemaForm(userData);
   }
 });
 </script>
