@@ -10,5 +10,6 @@ module.exports = {
       "jest-transform-stub"
   },
   setupFilesAfterEnv: ["<rootDir>/tests/setup.ts"],
-  restoreMocks: true
+  restoreMocks: true,
+  clearMocks: true
 };

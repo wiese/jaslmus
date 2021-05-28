@@ -57,6 +57,7 @@ export default defineComponent({
   },
   methods: {
     keyPlay(pianoChartNote: PianoChartNote) {
+      // .toString() is cleanly implemented on NoteValue, not necessarily on INoteValue - hmm…
       const midiPitch = note(pianoChartNote.toString()).midi;
       // we just swallow keys outside of midi range here - hmm…
       if (midiPitch) {
