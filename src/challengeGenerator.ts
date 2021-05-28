@@ -1,11 +1,6 @@
 import TonalAbcNotation from "@tonaljs/abc-notation";
 import Midi from "@tonaljs/midi";
-import { KEYS_IN_OCTAVE } from "@/Foundations";
-
-const MIDI_TOP_PITCH = 127;
-
-// get this from a 3rd party. that'd be great
-const accidentalKeys = [1, 3, 6, 8, 10];
+import { KEYS_IN_OCTAVE, MIDI_TOP_PITCH, ACCIDENTAL_KEYS } from "@/Foundations";
 
 export enum AccidentalsConfiguration {
   "no" = "no",
@@ -32,7 +27,7 @@ export function generatePitchOptions(
       if (pitch < baseNote) {
         continue;
       }
-      if (avoidAccidentals && accidentalKeys.includes(note)) {
+      if (avoidAccidentals && ACCIDENTAL_KEYS.includes(note)) {
         continue;
       }
 
