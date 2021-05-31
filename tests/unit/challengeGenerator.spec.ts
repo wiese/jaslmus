@@ -1,35 +1,7 @@
 import challengeGenerator, {
   AccidentalsConfiguration,
-  Challenge,
-  generatePitchOptions
+  Challenge
 } from "@/challengeGenerator";
-
-describe("generatePitchOptions", () => {
-  it("returns values between base note and note limit", () => {
-    const options = generatePitchOptions(60, 12, false);
-
-    expect(options).toStrictEqual([
-      60,
-      61,
-      62,
-      63,
-      64,
-      65,
-      66,
-      67,
-      68,
-      69,
-      70,
-      71
-    ]);
-  });
-
-  it("omits accidentals if configured", () => {
-    const options = generatePitchOptions(60, 9, true);
-
-    expect(options).toStrictEqual([60, 62, 64, 65, 67, 69, 71, 72, 74]);
-  });
-});
 
 describe("challengeGenerator", () => {
   it("can be constructed with a base note and note limit", () => {
