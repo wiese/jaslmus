@@ -2,8 +2,13 @@ import midiToAbc from "@/midiToAbc";
 
 describe("midiToAbc", () => {
   it("converts midi pitch to ABC notation", () => {
-    const abc = midiToAbc(60, false);
+    const abc = midiToAbc(60);
     expect(abc).toBe("C");
+  });
+
+  it("converts interpretable pitch to flat by default", () => {
+    const abc = midiToAbc(61, false);
+    expect(abc).toBe("_D");
   });
 
   it("converts interpretable pitch to flat if so configured", () => {

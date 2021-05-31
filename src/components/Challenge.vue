@@ -44,8 +44,6 @@
 <script lang="ts">
 import { defineComponent, PropType } from "vue";
 import AnimatedAbcNotation from "./AnimatedAbcNotation.vue";
-import Midi from "@tonaljs/midi";
-import TonalAbcNotation from "@tonaljs/abc-notation";
 import challengeGenerator, {
   AccidentalsConfiguration,
   Challenge
@@ -53,6 +51,7 @@ import challengeGenerator, {
 import { VueI18n } from "vue-i18n";
 import GameInfo from "@/types/GameInfo";
 import Keyboard from "@/types/Keyboard";
+import midiToAbc from "@/midiToAbc";
 
 export const START_ON_KEY = 60; // middle C
 
@@ -112,7 +111,7 @@ export default defineComponent({
   computed: {
     startViaKeyHint(): string {
       return (this.$i18n as VueI18n).t("game.noteReading.startViaKeyHint", {
-        key: `${START_ON_KEY} (${this.midiToAbc(START_ON_KEY)})`
+        key: `${START_ON_KEY} (${midiToAbc(START_ON_KEY)})`
       });
     },
     abc(): string {
@@ -189,11 +188,6 @@ export default defineComponent({
       } else {
         this.mistakes++;
       }
-    },
-    midiToAbc(pitch: number) {
-      return TonalAbcNotation.scientificToAbcNotation(
-        Midi.midiToNoteName(pitch)
-      );
     }
   },
   emits: ["finished"]
