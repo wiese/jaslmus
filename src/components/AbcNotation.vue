@@ -5,7 +5,7 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import AbcNotation from "abcjs";
-import "abcjs/abcjs-midi.css";
+import "abcjs/abcjs-audio.css";
 
 export default defineComponent({
   props: {

@@ -1,4 +1,4 @@
-// will hopefully be in v6 of abcjs
+// will hopefully be more detailed in upstream in later versions of abcjs
 // see https://github.com/paulrosen/abcjs/pull/536
 declare module "abcjs" {
   export enum ResponsiveMode {

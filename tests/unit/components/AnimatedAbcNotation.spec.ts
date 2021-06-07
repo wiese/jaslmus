@@ -28,9 +28,9 @@ describe("AnimatedAbcNotation", () => {
     const AbcNotation = {
       name: "AbcNotation",
       template: `<svg>
-  <g>
-    <path d="${path0Definition}" class="abcjs-staff" />
-    <path d="${path1Definition}" class="abcjs-staff" />
+  <g class="abcjs-staff">
+    <path d="${path0Definition}" />
+    <path d="${path1Definition}" />
   </g>
 </svg>`
     };
@@ -47,7 +47,7 @@ describe("AnimatedAbcNotation", () => {
       }
     });
     const abc = wrapper.findComponent(AbcNotation);
-    const paths = abc.findAll(".abcjs-staff");
+    const paths = abc.findAll(".abcjs-staff path");
     expect(paths).toHaveLength(2);
     expect(paths[0].attributes("d")).toBe(path0Definition);
     expect(paths[1].attributes("d")).toBe(path1Definition);

@@ -40,7 +40,7 @@ export default defineComponent({
       this.abcWidth = this.$refs.abc.$el.children[0].clientWidth;
 
       // remove "margins" from staff lines which happen to be part of the lines' path
-      this.$refs.abc.$el.querySelectorAll(".abcjs-staff").forEach(el => {
+      this.$refs.abc.$el.querySelectorAll(".abcjs-staff path").forEach(el => {
         const pathDefinition = el
           .getAttribute("d")
           .replace("M 15 ", "M 0 ")
@@ -53,14 +53,13 @@ export default defineComponent({
 </script>
 
 <style>
-/* auxiliary staff lines match the class, too - selecting "g" to make sure we don't stretch those */
-.animated-abc-notation g .abcjs-staff {
+.animated-abc-notation .abcjs-staff {
   transform: scaleX(10);
 }
 
-/* that is notes and possibly their respective auxiliary staff line */
+/* that is notes and possibly their ledger lines */
 .animated-abc-notation .abcjs-note,
-.animated-abc-notation svg > .abcjs-staff {
+.animated-abc-notation .abcjs-ledger {
   animation-duration: var(--animation-duration);
   animation-timing-function: linear;
   animation-direction: normal;
