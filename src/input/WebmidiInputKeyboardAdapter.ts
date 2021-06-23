@@ -1,5 +1,5 @@
 import { Input, InputEventNoteon } from "webmidi";
-import Keyboard, { KeyboardListener } from "@/types/Keyboard";
+import Keyboard, { KeyboardListener } from "./Keyboard";
 
 export default class WebmidiInputKeyboardAdapter implements Keyboard {
   private listeners: KeyboardListener[] = [];

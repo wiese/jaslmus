@@ -1,4 +1,4 @@
-import VirtualKeyboardEventObserver from "@/VirtualKeyboardEventObserver";
+import VirtualKeyboardEventObserver from "@/input/VirtualKeyboardEventObserver";
 
 describe("VirtualKeyboardEventObserver", () => {
   it("informs listeners on broadcast", () => {

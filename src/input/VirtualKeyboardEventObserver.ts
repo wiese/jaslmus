@@ -1,4 +1,4 @@
-import Keyboard, { KeyboardListener } from "@/types/Keyboard";
+import Keyboard, { KeyboardListener } from "./Keyboard";
 
 export default class VirtualKeyboardEventObserver implements Keyboard {
   private listeners: KeyboardListener[] = [];

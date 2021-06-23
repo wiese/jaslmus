@@ -1,4 +1,4 @@
-import WebmidiInputKeyboardAdapter from "@/WebmidiInputKeyboardAdapter";
+import WebmidiInputKeyboardAdapter from "@/input/WebmidiInputKeyboardAdapter";
 import { Input, InputEventNoteon } from "webmidi";
 
 describe("WebmidiInputKeyboardAdapter", () => {

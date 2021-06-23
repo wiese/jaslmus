@@ -8,7 +8,7 @@ import { defineComponent, PropType } from "vue";
 import AbcNotation from "./AbcNotation.vue";
 import Midi from "@tonaljs/midi";
 import TonalAbcNotation from "@tonaljs/abc-notation";
-import Keyboard from "@/types/Keyboard";
+import Keyboard from "@/input/Keyboard";
 
 export default defineComponent({
   name: "ShowPlay",

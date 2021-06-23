@@ -38,7 +38,7 @@
       <ScoreBoard :games="games" />
       <hr />
       <Challenge
-        :keyboards="keyboards"
+        :keyboard="keyboard"
         :base-note="preferences.noteReading.baseNote"
         :note-limit="preferences.noteReading.noteLimit"
         :speed="preferences.noteReading.speed"
@@ -70,10 +70,11 @@ import preferencesDefaults from "./preferences.defaults.json";
 import ScoreBoard from "@/components/ScoreBoard.vue";
 import GameInfo from "@/types/GameInfo";
 import GameResult from "@/types/GameResult";
-import WebmidiInputKeyboardAdapter from "@/WebmidiInputKeyboardAdapter";
-import Keyboard from "@/types/Keyboard";
+import WebmidiInputKeyboardAdapter from "@/input/WebmidiInputKeyboardAdapter";
+import Keyboard from "@/input/Keyboard";
 import VirtualKeyboard from "@/components/VirtualKeyboard.vue";
-import VirtualKeyboardEventObserver from "@/VirtualKeyboardEventObserver";
+import VirtualKeyboardEventObserver from "@/input/VirtualKeyboardEventObserver";
+import DispatchingKeyboard from "@/input/DispatchingKeyboard";
 
 export default defineComponent({
   name: "App",
@@ -94,12 +95,12 @@ export default defineComponent({
     VirtualKeyboard
   },
   computed: {
-    keyboards(): Keyboard[] {
+    keyboard(): Keyboard {
       const keyboards: Keyboard[] = [this.virtualKeyboard];
       if (this.midiInput) {
         keyboards.push(this.midiInput);
       }
-      return keyboards;
+      return new DispatchingKeyboard(keyboards);
     }
   },
   setup() {
