@@ -19,7 +19,7 @@
     "primeicons": "^4.1.0",
     "primevue": "^3.3.0-rc.1",
     "vue": "^3.0.0",
-    "vue-i18n": "^9.0.0-rc.5",
+    "vue-i18n": "^9.1",
     "webmidi": "^2.5.1"
   },
   "devDependencies": {
