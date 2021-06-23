@@ -4,9 +4,7 @@
     "punchline": "Learn to play the piano, all right."
   },
   "midi": {
-    "loading": "Loading MIDI capability…",
-    "error": "Problem loading MIDI capability. Please check browser {0} and permissions.",
-    "compatibilityAnchor": "compatibility"
+    "loading": "Loading MIDI capability…"
   },
   "midiOptions": {
     "title": "MIDI options",
@@ -76,7 +74,7 @@
     }
   },
   "error": {
-    "noMidiDevice": "Jaslmus needs at least one input device to work. Please configure one."
+    "noMidiDevice": "Jaslmus works best with a physical input device (requires compatible technology). You can use the virtual keyboard in the mean time."
   },
   "game": {
     "noteReading": {

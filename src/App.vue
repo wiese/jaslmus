@@ -2,8 +2,8 @@
   <h1>{{ $i18n.t("header.title") }}</h1>
   <p>{{ $i18n.t("header.punchline") }}</p>
   <hr />
-  <MidiCapability @midiReady="midiReady">
-    <div v-if="showMidiOptions">
+  <OptionalMidiCapability @midiReady="midiReady">
+    <div v-if="hasMidiSupport && showMidiOptions">
       <button @click="showMidiOptions = false">
         {{ $i18n.t("midiOptions.close") }}
       </button>
@@ -28,7 +28,7 @@
       <Preferences :preferences="preferences" @updated="preferences = $event" />
     </div>
     <div v-else>
-      <button @click="showMidiOptions = true">
+      <button v-if="hasMidiSupport" @click="showMidiOptions = true">
         {{ $i18n.t("midiOptions.title") }}
       </button>
       <button @click="showPreferences = true">
@@ -53,14 +53,14 @@
         {{ $i18n.t("error.noMidiDevice") }}
       </div>
     </div>
-  </MidiCapability>
+  </OptionalMidiCapability>
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue";
 import ShowPlay from "./components/ShowPlay.vue";
 import Challenge from "./components/Challenge.vue";
-import MidiCapability from "./components/MidiCapability.vue";
+import OptionalMidiCapability from "./components/OptionalMidiCapability.vue";
 import SubscriptionHandlingDeviceSelector from "./components/SubscriptionHandlingDeviceSelector.vue";
 import Preferences from "@/components/Preferences.vue";
 import WebMidi, { Input } from "webmidi";
@@ -78,6 +78,7 @@ import VirtualKeyboardEventObserver from "@/VirtualKeyboardEventObserver";
 export default defineComponent({
   name: "App",
   data: () => ({
+    hasMidiSupport: false,
     showMidiOptions: false,
     showPreferences: false,
     midiInput: null as Keyboard | null,
@@ -85,7 +86,7 @@ export default defineComponent({
   }),
   components: {
     SubscriptionHandlingDeviceSelector,
-    MidiCapability,
+    OptionalMidiCapability,
     Challenge,
     ShowPlay,
     Preferences,
@@ -122,6 +123,7 @@ export default defineComponent({
       this.midiInput = this.wrapMidiInput(current);
     },
     midiReady() {
+      this.hasMidiSupport = true;
       if (this.midiOptions.input) {
         const webmidiInput = WebMidi.getInputById(this.midiOptions.input);
         this.midiInput = webmidiInput ? this.wrapMidiInput(webmidiInput) : null;
