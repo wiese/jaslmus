@@ -7,6 +7,7 @@ import { defineComponent, PropType } from "vue";
 import { Instrument, INoteValue as PianoChartNote, Note } from "piano-chart";
 import { note } from "@tonaljs/core";
 import { KEYS_IN_OCTAVE } from "@/Foundations";
+import { KeyboardEvent } from "@/input/Keyboard";
 
 interface Settings {
   keys: number;
@@ -21,6 +22,14 @@ export default defineComponent({
     highlightedNotes: {
       required: false,
       default: []
+    },
+    simulateVelocity: {
+      required: false,
+      type: Number,
+      default: 1,
+      validator(value: number) {
+        return value >= 0 && value <= 1;
+      }
     }
   },
   computed: {
@@ -61,7 +70,11 @@ export default defineComponent({
       const midiPitch = note(pianoChartNote.toString()).midi;
       // we just swallow keys outside of midi range here - hmm…
       if (midiPitch) {
-        this.$emit("noteon", midiPitch);
+        const event: KeyboardEvent = {
+          midiPitch,
+          velocity: this.simulateVelocity
+        };
+        this.$emit("noteon", event);
       }
     },
     render() {

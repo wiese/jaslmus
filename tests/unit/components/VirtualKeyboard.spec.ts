@@ -37,8 +37,9 @@ describe("VirtualKeyboard.vue", () => {
   });
 
   it("emits key down events", async () => {
+    const velocity = 0.8;
     const wrapper = shallowMount(VirtualKeyboard, {
-      props: { settings: { keys: 49 } }
+      props: { settings: { keys: 49 }, simulateVelocity: velocity }
     });
 
     expect(mockKeyboard.addKeyMouseDownListener).toHaveBeenCalled();
@@ -57,7 +58,12 @@ describe("VirtualKeyboard.vue", () => {
     // feeds the keydown information back into the keyboard so it can visualize it (down) and emits it (up)
     expect(mockKeyboard.keyDown).toHaveBeenCalledWith(note);
     expect(wrapper.emitted("noteon")).toHaveLength(1);
-    expect(wrapper.emitted("noteon")![0]).toStrictEqual([60]);
+    expect(wrapper.emitted("noteon")![0]).toStrictEqual([
+      {
+        midiPitch: 60,
+        velocity
+      }
+    ]);
   });
 
   it("destroys 3rd party keyboard on unmount", () => {

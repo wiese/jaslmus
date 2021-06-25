@@ -1,4 +1,4 @@
-import Keyboard, { KeyboardListener } from "./Keyboard";
+import Keyboard, { KeyboardEvent, KeyboardListener } from "./Keyboard";
 
 export default class VirtualKeyboardEventObserver implements Keyboard {
   private listeners: KeyboardListener[] = [];
@@ -20,7 +20,7 @@ export default class VirtualKeyboardEventObserver implements Keyboard {
     return this;
   }
 
-  broadcast(midiPitch: number): void {
-    this.listeners.forEach(listener => listener(midiPitch));
+  broadcast(keyboardEvent: KeyboardEvent): void {
+    this.listeners.forEach(listener => listener(keyboardEvent));
   }
 }

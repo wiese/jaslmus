@@ -7,7 +7,12 @@ export default class WebmidiInputKeyboardAdapter implements Keyboard {
 
   constructor(readonly input: Input) {
     this.dispatcher = (midiEvent: InputEventNoteon) => {
-      this.listeners.forEach(listener => listener(midiEvent.data[1]));
+      this.listeners.forEach(listener =>
+        listener({
+          midiPitch: midiEvent.note.number,
+          velocity: midiEvent.velocity
+        })
+      );
     };
   }
 

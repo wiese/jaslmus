@@ -18,8 +18,9 @@ describe("WebmidiInputKeyboardAdapter", () => {
     );
   });
 
-  it("maps webmidi InputEvent to pitch if listener is called", () => {
-    const pitch = 71;
+  it("maps webmidi InputEvent to KeyboardEvent if listener is called", () => {
+    const pitch = 71,
+      velocity = 0.5;
 
     class MockMidiInput {
       private listeners: Array<(event: InputEventNoteon) => any> = [];
@@ -42,10 +43,16 @@ describe("WebmidiInputKeyboardAdapter", () => {
 
     adapter.addListener(dummyListener);
     mockMidiInput.broadcast(({
-      data: [144, pitch, 35]
+      note: {
+        number: pitch
+      },
+      velocity
     } as unknown) as InputEventNoteon);
 
-    expect(dummyListener).toHaveBeenCalledWith(pitch);
+    expect(dummyListener).toHaveBeenCalledWith({
+      midiPitch: pitch,
+      velocity
+    });
   });
 
   it("performs listener removal from webmidi input upon last listener removal", () => {

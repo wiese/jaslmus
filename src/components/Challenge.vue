@@ -50,7 +50,7 @@ import challengeGenerator, {
 } from "@/challengeGenerator";
 import { VueI18n } from "vue-i18n";
 import GameInfo from "@/types/GameInfo";
-import Keyboard from "@/input/Keyboard";
+import Keyboard, { KeyboardEvent } from "@/input/Keyboard";
 import midiToAbc from "@/midiToAbc";
 
 export const START_ON_KEY = 60; // middle C
@@ -159,11 +159,11 @@ export default defineComponent({
 
       this.heat++;
     },
-    evaluateInput(midiPitch: number) {
+    evaluateInput(keyboardEvent: KeyboardEvent) {
       if (this.gaming) {
-        this.evaluateResponse(midiPitch);
+        this.evaluateResponse(keyboardEvent.midiPitch);
       } else {
-        if (midiPitch === START_ON_KEY) {
+        if (keyboardEvent.midiPitch === START_ON_KEY) {
           if (this.finished) {
             this.reset();
           } else {
