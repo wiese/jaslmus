@@ -1,5 +1,6 @@
 import WebmidiInputKeyboardAdapter from "@/input/WebmidiInputKeyboardAdapter";
 import { Input, InputEventNoteon } from "webmidi";
+import { KeyboardEvents } from "@/input/Keyboard";
 
 describe("WebmidiInputKeyboardAdapter", () => {
   it("creates listener on webmidi input", () => {
@@ -9,7 +10,7 @@ describe("WebmidiInputKeyboardAdapter", () => {
     const adapter = new WebmidiInputKeyboardAdapter(webmidiInput);
     const dummyListener = jest.fn();
 
-    adapter.addListener(dummyListener);
+    adapter.addListener(KeyboardEvents.noteon, dummyListener);
 
     expect(webmidiInput.addListener).toHaveBeenCalledWith(
       "noteon",
@@ -41,13 +42,14 @@ describe("WebmidiInputKeyboardAdapter", () => {
       (mockMidiInput as unknown) as Input
     );
 
-    adapter.addListener(dummyListener);
-    mockMidiInput.broadcast(({
+    adapter.addListener(KeyboardEvents.noteon, dummyListener);
+    mockMidiInput.broadcast({
       note: {
         number: pitch
       },
-      velocity
-    } as unknown) as InputEventNoteon);
+      velocity,
+      type: "noteon"
+    } as InputEventNoteon);
 
     expect(dummyListener).toHaveBeenCalledWith({
       midiPitch: pitch,
@@ -62,7 +64,7 @@ describe("WebmidiInputKeyboardAdapter", () => {
     const adapter = new WebmidiInputKeyboardAdapter(webmidiInput);
     const dummyListener = jest.fn();
 
-    adapter.removeListener(dummyListener);
+    adapter.removeListener(KeyboardEvents.noteon, dummyListener);
 
     expect(webmidiInput.removeListener).toHaveBeenCalledWith(
       "noteon",
@@ -72,6 +74,7 @@ describe("WebmidiInputKeyboardAdapter", () => {
   });
 
   it("keeps listener on webmidi input upon remaining listeners after removal", () => {
+    const type = KeyboardEvents.noteon;
     const webmidiInput = ({
       addListener: jest.fn(),
       removeListener: jest.fn()
@@ -80,9 +83,9 @@ describe("WebmidiInputKeyboardAdapter", () => {
     const dummyListener2 = jest.fn();
 
     const adapter = new WebmidiInputKeyboardAdapter(webmidiInput);
-    adapter.addListener(dummyListener1);
-    adapter.addListener(dummyListener2);
-    adapter.removeListener(dummyListener1);
+    adapter.addListener(type, dummyListener1);
+    adapter.addListener(type, dummyListener2);
+    adapter.removeListener(type, dummyListener1);
 
     expect(webmidiInput.removeListener).not.toHaveBeenCalled();
   });

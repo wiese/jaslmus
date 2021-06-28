@@ -1,6 +1,7 @@
 import { shallowMount } from "@vue/test-utils";
 import VirtualKeyboard from "@/components/VirtualKeyboard.vue";
 import { Instrument, INoteValue } from "piano-chart";
+import { KeyboardEvents } from "@/input/Keyboard";
 
 const mockKeyboard: Partial<Instrument> = {
   create: jest.fn(),
@@ -61,7 +62,8 @@ describe("VirtualKeyboard.vue", () => {
     expect(wrapper.emitted("noteon")![0]).toStrictEqual([
       {
         midiPitch: 60,
-        velocity
+        velocity,
+        type: KeyboardEvents.noteon
       }
     ]);
   });

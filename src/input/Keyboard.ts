@@ -5,10 +5,37 @@ export interface KeyboardEvent {
   velocity: number;
 }
 
+export enum KeyboardEvents {
+  "noteon" = "noteon",
+  "noteoff" = "noteoff"
+}
+
+export interface KeyboardEventTypes {
+  [KeyboardEvents.noteon]: KeyboardEventNoteon;
+  [KeyboardEvents.noteoff]: KeyboardEventNoteoff;
+}
+
+export interface KeyboardEventNoteon extends KeyboardEvent {
+  type: KeyboardEvents.noteon;
+}
+
+export interface KeyboardEventNoteoff extends KeyboardEvent {
+  type: KeyboardEvents.noteoff;
+}
+
 export type KeyboardListener = (keyboardEvent: KeyboardEvent) => void;
 
-export default interface Keyboard {
-  addListener(listener: KeyboardListener): this;
+export type ListenersMap = {
+  [key in keyof KeyboardEventTypes]: KeyboardListener[];
+};
 
-  removeListener(listener?: KeyboardListener): this;
+export default interface Keyboard {
+  addListener<T extends keyof KeyboardEventTypes>(
+    type: T,
+    listener: KeyboardListener
+  ): this;
+  removeListener<T extends keyof KeyboardEventTypes>(
+    type: T,
+    listener: KeyboardListener
+  ): this;
 }

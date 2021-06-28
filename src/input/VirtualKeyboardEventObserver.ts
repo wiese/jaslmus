@@ -1,26 +1,40 @@
-import Keyboard, { KeyboardEvent, KeyboardListener } from "./Keyboard";
+import Keyboard, {
+  KeyboardEventNoteoff,
+  KeyboardEventNoteon,
+  KeyboardEvents,
+  KeyboardEventTypes,
+  KeyboardListener,
+  ListenersMap
+} from "./Keyboard";
 
 export default class VirtualKeyboardEventObserver implements Keyboard {
-  private listeners: KeyboardListener[] = [];
+  private listeners: ListenersMap = {
+    [KeyboardEvents.noteon]: [],
+    [KeyboardEvents.noteoff]: []
+  };
 
-  addListener(listener: KeyboardListener): this {
-    this.listeners.push(listener);
+  addListener<T extends keyof KeyboardEventTypes>(
+    type: T,
+    listener: KeyboardListener
+  ): this {
+    this.listeners[type].push(listener);
     return this;
   }
 
-  removeListener(specificListener?: KeyboardListener): this {
-    if (specificListener) {
-      const index = this.listeners.indexOf(specificListener);
-      if (index !== -1) {
-        this.listeners.splice(index, 1);
-      }
-    } else {
-      this.listeners = [];
+  removeListener<T extends keyof KeyboardEventTypes>(
+    type: T,
+    listener: KeyboardListener
+  ): this {
+    const index = this.listeners[type].indexOf(listener);
+    if (index !== -1) {
+      this.listeners[type].splice(index, 1);
     }
     return this;
   }
 
-  broadcast(keyboardEvent: KeyboardEvent): void {
-    this.listeners.forEach(listener => listener(keyboardEvent));
+  broadcast(keyboardEvent: KeyboardEventNoteon | KeyboardEventNoteoff): void {
+    this.listeners[keyboardEvent.type].forEach(listener =>
+      listener(keyboardEvent)
+    );
   }
 }

@@ -8,7 +8,7 @@ import { defineComponent, PropType } from "vue";
 import AbcNotation from "./AbcNotation.vue";
 import Midi from "@tonaljs/midi";
 import TonalAbcNotation from "@tonaljs/abc-notation";
-import Keyboard, { KeyboardEvent } from "@/input/Keyboard";
+import Keyboard, { KeyboardEvent, KeyboardEvents } from "@/input/Keyboard";
 
 export default defineComponent({
   name: "ShowPlay",
@@ -25,10 +25,10 @@ export default defineComponent({
     AbcNotation
   },
   unmounted() {
-    this.keyboard.removeListener(this.midiSubscription);
+    this.keyboard.removeListener(KeyboardEvents.noteon, this.midiSubscription);
   },
   mounted() {
-    this.keyboard.addListener(this.midiSubscription);
+    this.keyboard.addListener(KeyboardEvents.noteon, this.midiSubscription);
   },
   methods: {
     midiSubscription(keyboardEvent: KeyboardEvent) {

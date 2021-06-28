@@ -50,7 +50,7 @@ import challengeGenerator, {
 } from "@/challengeGenerator";
 import { VueI18n } from "vue-i18n";
 import GameInfo from "@/types/GameInfo";
-import Keyboard, { KeyboardEvent } from "@/input/Keyboard";
+import Keyboard, { KeyboardEvent, KeyboardEvents } from "@/input/Keyboard";
 import midiToAbc from "@/midiToAbc";
 
 export const START_ON_KEY = 60; // middle C
@@ -99,10 +99,10 @@ export default defineComponent({
     AnimatedAbcNotation
   },
   unmounted() {
-    this.keyboard.removeListener(this.evaluateInput);
+    this.keyboard.removeListener(KeyboardEvents.noteon, this.evaluateInput);
   },
   mounted() {
-    this.keyboard.addListener(this.evaluateInput);
+    this.keyboard.addListener(KeyboardEvents.noteon, this.evaluateInput);
   },
   computed: {
     startViaKeyHint(): string {
