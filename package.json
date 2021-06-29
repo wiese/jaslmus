@@ -6,7 +6,7 @@
     "postinstall": "node build/soundfont.js",
     "serve": "vue-cli-service serve --https",
     "build": "vue-cli-service build",
-    "test": "yarn run test:unit && yarn run lint . --no-fix",
+    "test": "yarn run test:unit && yarn run lint --no-fix",
     "test:unit": "vue-cli-service test:unit",
     "lint": "vue-cli-service lint ."
   },
