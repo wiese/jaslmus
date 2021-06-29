@@ -27,6 +27,6 @@ export default defineComponent({
       }, false);
     }
   },
-  emits: ["midiReady", "midiError"]
+  emits: ["midiReady"]
 });
 </script>
