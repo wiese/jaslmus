@@ -7,7 +7,11 @@ import { defineComponent, PropType } from "vue";
 import { Instrument, INoteValue as PianoChartNote, Note } from "piano-chart";
 import { note } from "@tonaljs/core";
 import { KEYS_IN_OCTAVE } from "@/Foundations";
-import { KeyboardEventNoteon, KeyboardEvents } from "@/input/Keyboard";
+import {
+  KeyboardEventNoteoff,
+  KeyboardEventNoteon,
+  KeyboardEvents
+} from "@/input/Keyboard";
 
 interface Settings {
   keys: number;
@@ -65,7 +69,7 @@ export default defineComponent({
     this.render();
   },
   methods: {
-    keyPlay(pianoChartNote: PianoChartNote) {
+    noteon(pianoChartNote: PianoChartNote) {
       // .toString() is cleanly implemented on NoteValue, not necessarily on INoteValue - hmm…
       const midiPitch = note(pianoChartNote.toString()).midi;
       // we just swallow keys outside of midi range here - hmm…
@@ -78,6 +82,19 @@ export default defineComponent({
         this.$emit("noteon", event);
       }
     },
+    noteoff(pianoChartNote: PianoChartNote) {
+      // .toString() is cleanly implemented on NoteValue, not necessarily on INoteValue - hmm…
+      const midiPitch = note(pianoChartNote.toString()).midi;
+      // we just swallow keys outside of midi range here - hmm…
+      if (midiPitch) {
+        const event: KeyboardEventNoteoff = {
+          type: KeyboardEvents.noteoff,
+          midiPitch,
+          velocity: this.simulateVelocity
+        };
+        this.$emit("noteoff", event);
+      }
+    },
     render() {
       this.piano = new Instrument(this.$refs.keyboard as HTMLElement, {
         startOctave: this.startOctave,
@@ -86,13 +103,16 @@ export default defineComponent({
         highlightedNotes: this.highlightedNotes
       });
       this.piano.create();
-      this.piano.addKeyMouseUpListener(this.piano.keyUp);
+      this.piano.addKeyMouseUpListener(note => {
+        this.piano.keyUp(note); // unintuitively feed the information back into the keyboard so it can visualize it
+        this.noteoff(note);
+      });
       this.piano.addKeyMouseDownListener(note => {
         this.piano.keyDown(note);
-        this.keyPlay(note);
+        this.noteon(note);
       });
     }
   },
-  emits: ["noteon"]
+  emits: ["noteon", "noteoff"]
 });
 </script>

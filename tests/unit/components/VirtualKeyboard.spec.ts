@@ -30,10 +30,7 @@ describe("VirtualKeyboard.vue", () => {
       startOctave: expect.any(Number)
     });
     expect(mockKeyboard.create).toHaveBeenCalled();
-    // feeds the keyup information back into the keyboard so it can visualize it
-    expect(mockKeyboard.addKeyMouseUpListener).toHaveBeenCalledWith(
-      mockKeyboard.keyUp
-    );
+    expect(mockKeyboard.addKeyMouseUpListener).toHaveBeenCalled();
     expect(mockKeyboard.addKeyMouseDownListener).toHaveBeenCalled();
   });
 
@@ -64,6 +61,36 @@ describe("VirtualKeyboard.vue", () => {
         midiPitch: 60,
         velocity,
         type: KeyboardEvents.noteon
+      }
+    ]);
+  });
+
+  it("emits key up events", async () => {
+    const velocity = 0.8;
+    const wrapper = shallowMount(VirtualKeyboard, {
+      props: { settings: { keys: 49 }, simulateVelocity: velocity }
+    });
+
+    expect(mockKeyboard.addKeyMouseUpListener).toHaveBeenCalled();
+    const keyMouseUpListener = (mockKeyboard.addKeyMouseUpListener as jest.Mock)
+      .mock.calls[0][0];
+
+    const note: INoteValue = {
+      note: "C",
+      octave: 4
+    };
+    note.toString = () => "C4";
+    keyMouseUpListener(note);
+
+    await wrapper.vm.$nextTick();
+
+    expect(mockKeyboard.keyUp).toHaveBeenCalledWith(note);
+    expect(wrapper.emitted("noteoff")).toHaveLength(1);
+    expect(wrapper.emitted("noteoff")![0]).toStrictEqual([
+      {
+        midiPitch: 60,
+        velocity,
+        type: KeyboardEvents.noteoff
       }
     ]);
   });

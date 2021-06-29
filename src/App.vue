@@ -48,6 +48,7 @@
       <VirtualKeyboard
         :settings="preferences.keyboardSettings"
         @noteon="virtualKeyboard.broadcast($event)"
+        @noteoff="virtualKeyboard.broadcast($event)"
       />
       <div v-if="!midiInput">
         {{ $i18n.t("error.noMidiDevice") }}
@@ -71,10 +72,13 @@ import ScoreBoard from "@/components/ScoreBoard.vue";
 import GameInfo from "@/types/GameInfo";
 import GameResult from "@/types/GameResult";
 import WebmidiInputKeyboardAdapter from "@/input/WebmidiInputKeyboardAdapter";
-import Keyboard from "@/input/Keyboard";
+import Keyboard, { KeyboardEvents } from "@/input/Keyboard";
 import VirtualKeyboard from "@/components/VirtualKeyboard.vue";
 import VirtualKeyboardEventObserver from "@/input/VirtualKeyboardEventObserver";
 import DispatchingKeyboard from "@/input/DispatchingKeyboard";
+import * as Tone from "tone";
+import { midiToNoteName } from "@tonaljs/midi";
+import soundfontNotes from "midi-js-soundfonts/FatBoy/acoustic_grand_piano-mp3/notes.json";
 
 export default defineComponent({
   name: "App",
@@ -100,7 +104,28 @@ export default defineComponent({
       if (this.midiInput) {
         keyboards.push(this.midiInput);
       }
-      return new DispatchingKeyboard(keyboards);
+      const keyboard = new DispatchingKeyboard(keyboards);
+
+      const synth = new Tone.Sampler({
+        urls: soundfontNotes,
+        baseUrl: "soundfont/"
+      }).toDestination();
+
+      keyboard.addListener(KeyboardEvents.noteon, keyboardEvent => {
+        synth.triggerAttack(
+          midiToNoteName(keyboardEvent.midiPitch),
+          Tone.now(),
+          keyboardEvent.velocity
+        );
+      });
+      keyboard.addListener(KeyboardEvents.noteoff, keyboardEvent => {
+        synth.triggerRelease(
+          [midiToNoteName(keyboardEvent.midiPitch)],
+          Tone.now()
+        );
+      });
+
+      return keyboard;
     }
   },
   setup() {
